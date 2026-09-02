@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ROB鉄</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
+    "Hiragino Sans","Noto Sans JP",sans-serif;
+    background:#f2f2f7;
+    color:#111;
+}
+
+button,
+input,
+textarea{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    padding:18px 20px;
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.header-inner{
+    max-width:900px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:13px;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
+
+.logo-title{
+    font-weight:800;
+    font-size:21px;
+}
+
+.logo-sub{
+    font-size:11px;
+    color:#777;
+}
+
+main{
+    max-width:900px;
+    margin:auto;
+    padding:24px 16px 100px;
+}
+
+.glass{
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,.8);
+    box-shadow:0 8px 30px rgba(0,0,0,.07);
+    border-radius:25px;
+}
+
+.hero{
+    padding:28px;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    margin:0 0 8px;
+    font-size:32px;
+}
+
+.hero p{
+    margin:0;
+    color:#777;
+}
+
+.update{
+    padding:22px;
+    margin-bottom:20px;
+}
+
+.update-label{
+    font-size:13px;
+    font-weight:700;
+    color:#777;
+    margin-bottom:8px;
+}
+
+.update h2{
+    margin:5px 0;
+}
+
+.update p{
+    color:#666;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:25px 4px 12px;
+}
+
+.section-title h2{
+    font-size:21px;
+    margin:0;
+}
+
+.card{
+    padding:20px;
+    margin-bottom:14px;
+}
+
+.post-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+}
+
+.username{
+    font-weight:700;
+}
+
+.post-time{
+    color:#888;
+    font-size:12px;
+}
+
+.post-text{
+    margin:16px 0;
+    line-height:1.7;
+    white-space:pre-wrap;
+}
+
+.post-actions{
+    display:flex;
+    gap:10px;
+}
+
+.action-btn{
+    border:0;
+    background:#f0f0f5;
+    padding:9px 14px;
+    border-radius:14px;
+}
+
+.action-btn.liked{
+    background:#111;
+    color:white;
+}
+
+nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:200;
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    border-top:1px solid rgba(0,0,0,.08);
+}
+
+.nav-inner{
+    max-width:700px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+}
+
+.nav-btn{
+    border:0;
+    background:transparent;
+    padding:12px 5px 10px;
+    color:#777;
+}
+
+.nav-btn.active{
+    color:#111;
+    font-weight:700;
+}
+
+.nav-icon{
+    display:block;
+    font-size:21px;
+}
+
+.nav-text{
+    display:block;
+    font-size:11px;
+    margin-top:3px;
+}
+
+.primary{
+    border:0;
+    background:#111;
+    color:white;
+    border-radius:16px;
+    padding:13px 18px;
+    font-weight:700;
+}
+
+.secondary{
+    border:0;
+    background:#eeeef3;
+    color:#111;
+    border-radius:16px;
+    padding:13px 18px;
+}
+
+.modal-bg{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:500;
+    background:rgba(0,0,0,.35);
+    backdrop-filter:blur(8px);
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+}
+
+.modal-bg.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:500px;
+    max-height:90vh;
+    overflow:auto;
+    padding:25px;
+    border-radius:28px;
+    background:rgba(255,255,255,.94);
+    box-shadow:0 20px 70px rgba(0,0,0,.25);
+}
+
+.modal h2{
+    margin-top:0;
+}
+
+input,
+textarea{
+    width:100%;
+    border:1px solid #ddd;
+    background:#f7f7fa;
+    border-radius:15px;
+    padding:14px;
+    outline:none;
+    margin:7px 0 14px;
+}
+
+textarea{
+    min-height:150px;
+    resize:vertical;
+}
+
+input:focus,
+textarea:focus{
+    border-color:#888;
+}
+
+.form-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:5px;
+}
+
+.form-buttons button{
+    flex:1;
+}
+
+.error{
+    color:#d00;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.success{
+    color:#087f23;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.profile{
+    padding:25px;
+}
+
+.profile-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.big-avatar{
+    width:70px;
+    height:70px;
+    border-radius:22px;
+    background:#111;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:28px;
+    font-weight:800;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:20px;
+}
+
+.stat{
+    background:#f1f1f5;
+    border-radius:18px;
+    padding:15px;
+    text-align:center;
+}
+
+.stat-number{
+    font-size:22px;
+    font-weight:800;
+}
+
+.stat-label{
+    color:#777;
+    font-size:12px;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.empty{
+    text-align:center;
+    color:#888;
+    padding:40px 15px;
+}
+
+@media(max-width:600px){
+
+    .hero h1{
+        font-size:27px;
+    }
+
+    .hero{
+        padding:23px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="header-inner">
+
+<div class="logo">
+
+<div class="logo-icon">
+🚃
+</div>
+
+<div>
+<div class="logo-title">ROB鉄</div>
+<div class="logo-sub">Roblox鉄道SNS</div>
+</div>
+
+</div>
+
+<div id="headerUser"></div>
+
+</div>
+
+</header>
+
+
+<main>
+
+<!-- HOME -->
+
+<div id="homePage">
+
+<div class="hero glass">
+
+<h1>ROB鉄へようこそ。</h1>
+
+<p>
+尾羽急をはじめとしたRoblox鉄道を楽しむためのSNS
+</p>
+
+<div style="margin-top:18px">
+
+<button class="primary" onclick="openPostModal()">
+＋ 投稿する
+</button>
+
+</div>
+
+</div>
+
+
+<div class="update glass">
+
+<div class="update-label">
+📰 LATEST UPDATE
+</div>
+
+<h2>
+尾羽急 最新情報
+</h2>
+
+<p>
+アップデート情報やイベント情報をここに掲載できます。
+</p>
+
+<button class="secondary" onclick="showUpdates()">
+アプデ情報を見る →
+</button>
+
+</div>
+
+
+<div class="section-title">
+
+<h2>
+🔥 最新の投稿
+</h2>
+
+</div>
+
+<div id="posts"></div>
+
+</div>
+
+
+<!-- PROFILE -->
+
+<div id="profilePage" class="hidden">
+
+<div class="profile glass">
+
+<div class="profile-top">
+
+<div class="big-avatar" id="profileAvatar">
+?
+</div>
+
+<div>
+
+<h2 id="profileName">
+-
+</h2>
+
+<p style="color:#777">
+ROB鉄ユーザー
+</p>
+
+</div>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+<div class="stat-number" id="postCount">
+0
+</div>
+
+<div class="stat-label">
+投稿
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-number">
+🚃
+</div>
+
+<div class="stat-label">
+鉄道好き
+</div>
+
+</div>
+
+<div class="stat">
+
+<div class="stat-number">
+⭐
+</div>
+
+<div class="stat-label">
+ROB鉄
+</div>
+
+</div>
+
+</div>
+
+
+<div style="margin-top:20px">
+
+<button class="secondary" onclick="logout()">
+ログアウト
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- UPDATE -->
+
+<div id="updatePage" class="hidden">
+
+<div class="section-title">
+
+<h2>
+📰 アップデート情報
+</h2>
+
+</div>
+
+<div class="card glass">
+
+<div class="update-label">
+2026/09/02
+</div>
+
+<h2>
+🚃 ROB鉄SNS 開発開始
+</h2>
+
+<p>
+ROB鉄SNSの開発を開始しました。
+</p>
+
+</div>
+
+<div class="card glass">
+
+<div class="update-label">
+INFORMATION
+</div>
+
+<h2>
+尾羽急 アップデート情報</h2>
+
+<p>
+ここに尾羽急のアップデート情報を追加していくことができます。
+</p>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+<div class="nav-inner">
+
+<button class="nav-btn active" onclick="showPage('homePage',this)">
+
+<span class="nav-icon">
+🏠
+</span>
+
+<span class="nav-text">
+ホーム
+</span>
+
+</button>
+
+
+<button class="nav-btn" onclick="showPage('updatePage',this)">
+
+<span class="nav-icon">
+📰
+</span>
+
+<span class="nav-text">
+アプデ
+</span>
+
+</button>
+
+
+<button class="nav-btn" onclick="openPostModal()">
+
+<span class="nav-icon">
+➕
+</span>
+
+<span class="nav-text">
+投稿
+</span>
+
+</button>
+
+
+<button class="nav-btn" onclick="openProfile()">
+
+<span class="nav-icon">
+👤
+</span>
+
+<span class="nav-text">
+マイページ
+</span>
+
+</button>
+
+</div>
+
+</nav>
+
+
+<!-- LOGIN MODAL -->
+
+<div id="loginModal" class="modal-bg">
+
+<div class="modal">
+
+<h2>
+🔐 ログイン
+</h2>
+
+<div id="loginError" class="error"></div>
+
+<label>
+ユーザー名
+</label>
+
+<input
+id="loginName"
+type="text"
+placeholder="ユーザー名"
+/>
+
+<label>
+パスワード
+</label>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="パスワード"
+/>
+
+<div class="form-buttons">
+
+<button class="secondary" onclick="closeModal('loginModal')">
+キャンセル
+</button>
+
+<button class="primary" onclick="login()">
+ログイン
+</button>
+
+</div>
+
+<div style="text-align:center;margin-top:20px">
+
+まだアカウントがない？
+
+<button
+style="border:0;background:none;text-decoration:underline"
+onclick="switchToRegister()"
+>
+アカウント作成
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- REGISTER MODAL -->
+
+<div id="registerModal" class="modal-bg">
+
+<div class="modal">
+
+<h2>
+✨ アカウント作成
+</h2>
+
+<div id="registerError" class="error"></div>
+
+<label>
+ユーザー名
+</label>
+
+<input
+id="registerName"
+type="text"
+maxlength="20"
+placeholder="例：尾羽急ファン"
+/>
+
+<label>
+パスワード
+</label>
+
+<input
+id="registerPassword"
+type="password"
+placeholder="パスワード"
+/>
+
+<label>
+パスワード確認
+</label>
+
+<input
+id="registerPassword2"
+type="password"
+placeholder="もう一度入力"
+/>
+
+<div class="form-buttons">
+
+<button class="secondary" onclick="closeModal('registerModal')">
+キャンセル
+</button>
+
+<button class="primary" onclick="register()">
+アカウント作成
+</button>
+
+</div>
+
+<div style="text-align:center;margin-top:20px">
+
+すでにアカウントがある？
+
+<button
+style="border:0;background:none;text-decoration:underline"
+onclick="switchToLogin()"
+>
+ログイン
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- POST MODAL -->
+
+<div id="postModal" class="modal-bg">
+
+<div class="modal">
+
+<h2>
+📝 投稿する
+</h2>
+
+<div id="postError" class="error"></div>
+
+<textarea
+id="postText"
+maxlength="500"
+placeholder="ROB鉄について投稿しよう！&#10;&#10;例：今日、尾羽急の○○系に乗ってきた！"
+></textarea>
+
+<div style="text-align:right;color:#888;font-size:12px">
+最大500文字
+</div>
+
+<div class="form-buttons">
+
+<button class="secondary" onclick="closeModal('postModal')">
+キャンセル
+</button>
+
+<button class="primary" onclick="createPost()">
+投稿する
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let users =
+JSON.parse(localStorage.getItem("robTetsuUsers") || "[]");
+
+let posts =
+JSON.parse(localStorage.getItem("robTetsuPosts") || "[]");
+
+let currentUser =
+localStorage.getItem("robTetsuCurrentUser");
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+renderPosts();
+updateHeader();
+
+
+/* =========================
+   USER
+========================= */
+
+function register(){
+
+    const name =
+    document.getElementById("registerName").value.trim();
+
+    const password =
+    document.getElementById("registerPassword").value;
+
+    const password2 =
+    document.getElementById("registerPassword2").value;
+
+    const error =
+    document.getElementById("registerError");
+
+    error.textContent = "";
+
+
+    if(name.length < 2){
+
+        error.textContent =
+        "ユーザー名は2文字以上にしてね。";
+
+        return;
+
+    }
+
+
+    if(password.length < 4){
+
+        error.textContent =
+        "パスワードは4文字以上にしてね。";
+
+        return;
+
+    }
+
+
+    if(password !== password2){
+
+        error.textContent =
+        "パスワードが一致していないよ。";
+
+        return;
+
+    }
+
+
+    if(users.some(user => user.name === name)){
+
+        error.textContent =
+        "そのユーザー名はすでに使われています。";
+
+        return;
+
+    }
+
+
+    users.push({
+
+        name:name,
+
+        password:password,
+
+        createdAt:new Date().toISOString()
+
+    });
+
+
+    localStorage.setItem(
+        "robTetsuUsers",
+        JSON.stringify(users)
+    );
+
+
+    currentUser = name;
+
+    localStorage.setItem(
+        "robTetsuCurrentUser",
+        currentUser
+    );
+
+
+    closeModal("registerModal");
+
+    updateHeader();
+
+    alert("アカウントを作成しました！");
+
+}
+
+
+function login(){
+
+    const name =
+    document.getElementById("loginName").value.trim();
+
+    const password =
+    document.getElementById("loginPassword").value;
+
+    const error =
+    document.getElementById("loginError");
+
+    error.textContent = "";
+
+
+    const user =
+    users.find(
+        u =>
+        u.name === name &&
+        u.password === password
+    );
+
+
+    if(!user){
+
+        error.textContent =
+        "ユーザー名またはパスワードが違います。";
+
+        return;
+
+    }
+
+
+    currentUser = user.name;
+
+    localStorage.setItem(
+        "robTetsuCurrentUser",
+        currentUser
+    );
+
+
+    closeModal("loginModal");
+
+    updateHeader();
+
+    alert("ログインしました！");
+
+}
+
+
+function logout(){
+
+    currentUser = null;
+
+    localStorage.removeItem(
+        "robTetsuCurrentUser"
+    );
+
+    updateHeader();
+
+    showPage("homePage");
+
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+function updateHeader(){
+
+    const header =
+    document.getElementById("headerUser");
+
+
+    if(currentUser){
+
+        header.innerHTML = `
+        <button class="secondary"
+        onclick="openProfile()">
+        👤 ${escapeHTML(currentUser)}
+        </button>
+        `;
+
+    }else{
+
+        header.innerHTML = `
+        <button class="primary"
+        onclick="openLogin()">
+        ログイン
+        </button>
+        `;
+
+    }
+
+}
+
+
+/* =========================
+   POSTS
+========================= */
+
+function createPost(){
+
+    if(!currentUser){
+
+        closeModal("postModal");
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    const text =
+    document.getElementById("postText").value.trim();
+
+    const error =
+    document.getElementById("postError");
+
+    error.textContent = "";
+
+
+    if(!text){
+
+        error.textContent =
+        "投稿内容を入力してね。";
+
+        return;
+
+    }
+
+
+    const post = {
+
+        id:Date.now(),
+
+        user:currentUser,
+
+        text:text,
+
+        likes:0,
+
+        liked:false,
+
+        createdAt:new Date().toISOString()
+
+    };
+
+
+    posts.unshift(post);
+
+
+    localStorage.setItem(
+        "robTetsuPosts",
+        JSON.stringify(posts)
+    );
+
+
+    document.getElementById("postText").value = "";
+
+    closeModal("postModal");
+
+    renderPosts();
+
+}
+
+
+function renderPosts(){
+
+    const container =
+    document.getElementById("posts");
+
+
+    if(posts.length === 0){
+
+        container.innerHTML = `
+
+        <div class="glass empty">
+
+        まだ投稿がありません。
+
+        <br><br>
+
+        最初の投稿をしてみよう！🚃
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+    posts.map(post => {
+
+        const first =
+        escapeHTML(post.user.charAt(0));
+
+        return `
+
+        <article class="card glass">
+
+        <div class="post-head">
+
+        <div class="avatar">
+        ${first}
+        </div>
+
+        <div>
+
+        <div class="username">
+        ${escapeHTML(post.user)}
+        </div>
+
+        <div class="post-time">
+        ${formatDate(post.createdAt)}
+        </div>
+
+        </div>
+
+        </div>
+
+
+        <div class="post-text">
+        ${escapeHTML(post.text)}
+        </div>
+
+
+        <div class="post-actions">
+
+        <button
+        class="action-btn ${post.liked ? "liked" : ""}"
+        onclick="likePost(${post.id})">
+
+        ❤️ ${post.likes}
+
+        </button>
+
+
+        </div>
+
+        </article>
+
+        `;
+
+    }).join("");
+
+}
+
+
+function likePost(id){
+
+    if(!currentUser){
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    const post =
+    posts.find(p => p.id === id);
+
+
+    if(!post) return;
+
+
+    if(!post.liked){
+
+        post.likes++;
+
+        post.liked = true;
+
+    }else{
+
+        post.likes--;
+
+        post.liked = false;
+
+    }
+
+
+    localStorage.setItem(
+        "robTetsuPosts",
+        JSON.stringify(posts)
+    );
+
+
+    renderPosts();
+
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+function openProfile(){
+
+    if(!currentUser){
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    showPage("profilePage");
+
+
+    document.getElementById(
+        "profileName"
+    ).textContent = currentUser;
+
+
+    document.getElementById(
+        "profileAvatar"
+    ).textContent =
+    currentUser.charAt(0);
+
+
+    document.getElementById(
+        "postCount"
+    ).textContent =
+    posts.filter(
+        p => p.user === currentUser
+    ).length;
+
+}
+
+
+/* =========================
+   PAGE
+========================= */
+
+function showPage(pageId,button){
+
+    document
+    .querySelectorAll(
+        "#homePage,#profilePage,#updatePage"
+    )
+    .forEach(page =>
+        page.classList.add("hidden")
+    );
+
+
+    document
+    .getElementById(pageId)
+    .classList.remove("hidden");
+
+
+    document
+    .querySelectorAll(".nav-btn")
+    .forEach(btn =>
+        btn.classList.remove("active")
+    );
+
+
+    if(button){
+
+        button.classList.add("active");
+
+    }
+
+}
+
+
+/* =========================
+   MODALS
+========================= */
+
+function openLogin(){
+
+    document
+    .getElementById("loginModal")
+    .classList.add("show");
+
+}
+
+
+function openRegister(){
+
+    document
+    .getElementById("registerModal")
+    .classList.add("show");
+
+}
+
+
+function openPostModal(){
+
+    if(!currentUser){
+
+        openLogin();
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("postModal")
+    .classList.add("show");
+
+}
+
+
+function closeModal(id){
+
+    document
+    .getElementById(id)
+    .classList.remove("show");
+
+}
+
+
+function switchToRegister(){
+
+    closeModal("loginModal");
+
+    openRegister();
+
+}
+
+
+function switchToLogin(){
+
+    closeModal("registerModal");
+
+    openLogin();
+
+}
+
+
+/* =========================
+   UPDATE
+========================= */
+
+function showUpdates(){
+
+    showPage("updatePage");
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(date){
+
+    const d =
+    new Date(date);
+
+
+    return d.toLocaleString(
+        "ja-JP",
+        {
+            year:"numeric",
+            month:"numeric",
+            day:"numeric",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(text){
+
+    return text
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+document
+.querySelectorAll(".modal-bg")
+.forEach(bg => {
+
+    bg.addEventListener(
+        "click",
+        function(e){
+
+            if(e.target === bg){
+
+                bg.classList.remove("show");
+
+            }
+
+        }
+    );
+
+});
+
+
+</script>
+
+</body>
+</html>
