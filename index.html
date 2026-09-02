@@ -2,47 +2,67 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<title>ROB鉄</title>
+<title>ロブとれの森</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
     box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",
-    "Hiragino Sans","Noto Sans JP",sans-serif;
-    background:#f2f2f7;
+    font-family:-apple-system,BlinkMacSystemFont,
+    "SF Pro Display","Helvetica Neue",Arial,sans-serif;
+    background:
+        radial-gradient(circle at 20% 10%,#dcecff 0%,transparent 35%),
+        radial-gradient(circle at 80% 20%,#f3e8ff 0%,transparent 35%),
+        linear-gradient(135deg,#eef4ff,#f8f8fc);
+    min-height:100vh;
     color:#111;
+    padding-bottom:90px;
 }
 
-button,input,textarea{
+button,
+input,
+textarea{
     font:inherit;
 }
 
 button{
+    border:0;
     cursor:pointer;
 }
+
+.glass{
+    background:rgba(255,255,255,.62);
+    backdrop-filter:blur(25px);
+    -webkit-backdrop-filter:blur(25px);
+    border:1px solid rgba(255,255,255,.75);
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.08),
+        inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+/* HEADER */
 
 header{
     position:sticky;
     top:0;
     z-index:100;
-    padding:18px 20px;
-    background:rgba(255,255,255,.72);
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-    border-bottom:1px solid rgba(0,0,0,.08);
+    padding:14px 18px;
 }
 
 .header-inner{
     max-width:900px;
     margin:auto;
+    border-radius:24px;
+    padding:12px 16px;
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -51,217 +71,207 @@ header{
 .logo{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
+    font-weight:800;
+    font-size:20px;
 }
 
-.logo-icon{
-    width:42px;
-    height:42px;
-    border-radius:13px;
-    background:#111;
-    color:white;
+.logo span{
+    font-size:24px;
+}
+
+.header-user{
     display:flex;
     align-items:center;
-    justify-content:center;
-    font-size:21px;
+    gap:8px;
 }
 
-.logo-title{
-    font-weight:800;
-    font-size:21px;
+.user-name{
+    font-size:14px;
+    font-weight:700;
 }
 
-.logo-sub{
-    font-size:11px;
-    color:#777;
+.small-btn{
+    padding:8px 13px;
+    border-radius:14px;
+    background:rgba(0,0,0,.06);
 }
+
+/* MAIN */
 
 main{
-    max-width:900px;
-    margin:auto;
-    padding:24px 16px 100px;
+    width:min(900px,calc(100% - 24px));
+    margin:18px auto;
 }
 
-.glass{
-    background:rgba(255,255,255,.72);
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-    border:1px solid rgba(255,255,255,.8);
-    box-shadow:0 8px 30px rgba(0,0,0,.07);
-    border-radius:25px;
+.page{
+    display:none;
 }
+
+.page.active{
+    display:block;
+}
+
+/* HERO */
 
 .hero{
-    padding:28px;
-    margin-bottom:20px;
+    border-radius:30px;
+    padding:30px 24px;
+    margin-bottom:18px;
 }
 
 .hero h1{
-    margin:0 0 8px;
-    font-size:32px;
-}
-
-.hero p{
-    margin:0;
-    color:#777;
-}
-
-.update{
-    padding:22px;
-    margin-bottom:20px;
-}
-
-.update-label{
-    font-size:13px;
-    font-weight:700;
-    color:#777;
+    font-size:38px;
+    letter-spacing:-1.5px;
     margin-bottom:8px;
 }
 
-.update h2{
-    margin:5px 0;
-}
-
-.update p{
+.hero p{
     color:#666;
+    line-height:1.6;
 }
 
-.section-title{
+.hero-buttons{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin:25px 4px 12px;
+    gap:10px;
+    margin-top:20px;
+    flex-wrap:wrap;
 }
 
-.section-title h2{
-    font-size:21px;
-    margin:0;
+.primary{
+    background:#111;
+    color:white;
+    padding:12px 18px;
+    border-radius:16px;
+    font-weight:700;
 }
+
+.secondary{
+    background:rgba(255,255,255,.75);
+    padding:12px 18px;
+    border-radius:16px;
+    font-weight:700;
+}
+
+/* CARDS */
 
 .card{
+    border-radius:24px;
     padding:20px;
     margin-bottom:14px;
+}
+
+.card-title{
+    font-size:18px;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.update{
+    background:
+        linear-gradient(135deg,
+        rgba(255,255,255,.75),
+        rgba(220,235,255,.6));
+}
+
+.update-tag{
+    display:inline-block;
+    background:#111;
+    color:#fff;
+    padding:5px 9px;
+    border-radius:9px;
+    font-size:11px;
+    margin-bottom:10px;
+}
+
+/* POSTS */
+
+.post{
+    border-radius:23px;
+    padding:18px;
+    margin-bottom:13px;
 }
 
 .post-head{
     display:flex;
     align-items:center;
-    gap:12px;
+    justify-content:space-between;
+    margin-bottom:10px;
 }
 
-.avatar{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#111;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:700;
+.post-user{
+    font-weight:800;
 }
 
-.username{
-    font-weight:700;
-}
-
-.post-time{
+.post-date{
     color:#888;
     font-size:12px;
 }
 
-.post-text{
-    margin:16px 0;
-    line-height:1.7;
+.post-content{
+    line-height:1.65;
     white-space:pre-wrap;
+    word-break:break-word;
 }
 
 .post-actions{
     display:flex;
-    gap:10px;
+    gap:8px;
+    margin-top:14px;
 }
 
 .action-btn{
-    border:0;
-    background:#f0f0f5;
-    padding:9px 14px;
-    border-radius:14px;
+    background:rgba(0,0,0,.05);
+    padding:8px 13px;
+    border-radius:13px;
 }
 
 .action-btn.liked{
     background:#111;
-    color:white;
+    color:#fff;
 }
 
-nav{
+/* NAV */
+
+.bottom-nav{
     position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
+    bottom:14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(500px,calc(100% - 28px));
     z-index:200;
-    background:rgba(255,255,255,.82);
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-    border-top:1px solid rgba(0,0,0,.08);
-}
-
-.nav-inner{
-    max-width:700px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
+    border-radius:25px;
+    padding:8px;
+    display:flex;
+    justify-content:space-around;
 }
 
 .nav-btn{
-    border:0;
     background:transparent;
-    padding:12px 5px 10px;
-    color:#777;
+    padding:10px 14px;
+    border-radius:17px;
+    color:#666;
+    font-weight:700;
 }
 
 .nav-btn.active{
-    color:#111;
-    font-weight:700;
-}
-
-.nav-icon{
-    display:block;
-    font-size:21px;
-}
-
-.nav-text{
-    display:block;
-    font-size:11px;
-    margin-top:3px;
-}
-
-.primary{
-    border:0;
     background:#111;
-    color:white;
-    border-radius:16px;
-    padding:13px 18px;
-    font-weight:700;
+    color:#fff;
 }
 
-.secondary{
-    border:0;
-    background:#eeeef3;
-    color:#111;
-    border-radius:16px;
-    padding:13px 18px;
-}
+/* MODAL */
 
 .modal-bg{
-    display:none;
     position:fixed;
     inset:0;
-    z-index:500;
     background:rgba(0,0,0,.35);
     backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+    display:none;
     align-items:center;
     justify-content:center;
-    padding:18px;
+    z-index:500;
+    padding:20px;
 }
 
 .modal-bg.show{
@@ -269,125 +279,124 @@ nav{
 }
 
 .modal{
-    width:100%;
-    max-width:500px;
-    max-height:90vh;
-    overflow:auto;
-    padding:25px;
+    width:min(430px,100%);
     border-radius:28px;
-    background:rgba(255,255,255,.94);
-    box-shadow:0 20px 70px rgba(0,0,0,.25);
+    padding:24px;
 }
 
 .modal h2{
-    margin-top:0;
+    margin-bottom:18px;
 }
 
-input,textarea{
+.input{
     width:100%;
-    border:1px solid #ddd;
-    background:#f7f7fa;
+    padding:13px 15px;
     border-radius:15px;
-    padding:14px;
+    border:1px solid rgba(0,0,0,.08);
+    background:rgba(255,255,255,.8);
     outline:none;
-    margin:7px 0 14px;
+    margin-bottom:10px;
 }
 
-textarea{
-    min-height:150px;
+textarea.input{
+    min-height:130px;
     resize:vertical;
 }
 
-input:focus,textarea:focus{
-    border-color:#888;
-}
-
-.form-buttons{
+.modal-buttons{
     display:flex;
-    gap:10px;
-    margin-top:5px;
+    gap:8px;
+    margin-top:8px;
 }
 
-.form-buttons button{
+.modal-buttons button{
     flex:1;
 }
 
-.error{
-    color:#d00;
-    font-size:13px;
-    margin-bottom:10px;
+.close-btn{
+    background:rgba(0,0,0,.06);
+    padding:12px;
+    border-radius:15px;
 }
 
-.success{
-    color:#087f23;
-    font-size:13px;
-    margin-bottom:10px;
+.switch{
+    text-align:center;
+    margin-top:15px;
+    color:#555;
+    font-size:14px;
 }
+
+.switch button{
+    background:none;
+    color:#007aff;
+    font-weight:700;
+}
+
+/* PROFILE */
 
 .profile{
-    padding:25px;
+    text-align:center;
+    padding:28px;
 }
 
-.profile-top{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
-
-.big-avatar{
-    width:70px;
-    height:70px;
-    border-radius:22px;
+.avatar{
+    width:80px;
+    height:80px;
+    border-radius:50%;
     background:#111;
-    color:white;
+    color:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:28px;
+    font-size:30px;
+    margin:0 auto 15px;
+}
+
+.profile-name{
+    font-size:24px;
     font-weight:800;
 }
 
-.stats{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    margin-top:20px;
-}
-
-.stat{
-    background:#f1f1f5;
-    border-radius:18px;
-    padding:15px;
-    text-align:center;
-}
-
-.stat-number{
-    font-size:22px;
-    font-weight:800;
-}
-
-.stat-label{
+.profile-info{
     color:#777;
-    font-size:12px;
+    margin-top:5px;
 }
 
-.hidden{
-    display:none!important;
-}
+/* EMPTY */
 
 .empty{
     text-align:center;
-    color:#888;
-    padding:40px 15px;
+    padding:35px;
+    color:#777;
 }
 
+/* LOADING */
+
+.loading{
+    text-align:center;
+    padding:30px;
+    color:#777;
+}
+
+/* MOBILE */
+
 @media(max-width:600px){
+
     .hero h1{
-        font-size:27px;
+        font-size:31px;
     }
 
-    .hero{
-        padding:23px;
+    .header-inner{
+        border-radius:20px;
+    }
+
+    .user-name{
+        display:none;
+    }
+
+    .card,
+    .post{
+        border-radius:20px;
     }
 }
 </style>
@@ -396,182 +405,205 @@ input:focus,textarea:focus{
 <body>
 
 <header>
-<div class="header-inner">
+    <div class="header-inner glass">
 
-<div class="logo">
-<div class="logo-icon">🚃</div>
+        <div class="logo">
+            <span>🚃</span>
+            <div>
+                ROB鉄
+                <div style="
+                    font-size:10px;
+                    font-weight:500;
+                    color:#777;">
+                    Roblox鉄道SNS
+                </div>
+            </div>
+        </div>
 
-<div>
-<div class="logo-title">ROB鉄</div>
-<div class="logo-sub">Roblox鉄道SNS</div>
-</div>
-</div>
+        <div class="header-user">
+            <div id="headerUser" class="user-name">
+                未ログイン
+            </div>
 
-<div id="headerUser"></div>
+            <button
+                id="headerButton"
+                class="small-btn"
+                onclick="openLogin()">
+                ログイン
+            </button>
+        </div>
 
-</div>
+    </div>
 </header>
+
 
 <main>
 
-<div id="homePage">
+<!-- HOME -->
 
-<div class="hero glass">
+<section id="homePage" class="page active">
 
-<h1>ROB鉄へようこそ。</h1>
+    <div class="hero glass">
 
-<p>
-尾羽急をはじめとしたRoblox鉄道を楽しむためのSNS
-</p>
+        <h1>ロブ鉄SNS</h1>
 
-<div style="margin-top:18px">
+        <p>
+            Robloxの鉄道をもっと楽しもう。<br>
+            最新情報を見たり、鉄道について投稿したりできます。
+        </p>
 
-<button class="primary" onclick="openPostModal()">
-＋ 投稿する
-</button>
+        <div class="hero-buttons">
 
-</div>
-</div>
+            <button
+                class="primary"
+                onclick="openPostModal()">
+                ＋ 投稿する
+            </button>
 
-<div class="update glass">
+            <button
+                class="secondary"
+                onclick="showPage('updates')">
+                尾羽急 最新情報
+            </button>
 
-<div class="update-label">
-📰 LATEST UPDATE
-</div>
+        </div>
 
-<h2>尾羽急 最新情報</h2>
-
-<p>
-アップデート情報やイベント情報をここに掲載できます。
-</p>
-
-<button class="secondary" onclick="showUpdates()">
-アプデ情報を見る →
-</button>
-
-</div>
-
-<div class="section-title">
-<h2>🔥 最新の投稿</h2>
-</div>
-
-<div id="posts"></div>
-
-</div>
+    </div>
 
 
-<div id="profilePage" class="hidden">
+    <div class="card glass update">
 
-<div class="profile glass">
+        <div class="update-tag">
+            NEWS
+        </div>
 
-<div class="profile-top">
+        <div class="card-title">
+            尾羽急 最新情報
+        </div>
 
-<div class="big-avatar" id="profileAvatar">
-?
-</div>
+        <p>
+            尾羽急電鉄に関する最新情報をチェック！
+        </p>
 
-<div>
-<h2 id="profileName">-</h2>
-<p style="color:#777">ROB鉄ユーザー</p>
-</div>
+        <button
+            class="secondary"
+            style="margin-top:13px"
+            onclick="showPage('updates')">
+            詳しく見る
+        </button>
 
-</div>
-
-<div class="stats">
-
-<div class="stat">
-<div class="stat-number" id="postCount">0</div>
-<div class="stat-label">投稿</div>
-</div>
-
-<div class="stat">
-<div class="stat-number">🚃</div>
-<div class="stat-label">鉄道好き</div>
-</div>
-
-<div class="stat">
-<div class="stat-number">⭐</div>
-<div class="stat-label">ROB鉄</div>
-</div>
-
-</div>
-
-<div style="margin-top:20px">
-
-<button class="secondary" onclick="logout()">
-ログアウト
-</button>
-
-</div>
-
-</div>
-</div>
+    </div>
 
 
-<div id="updatePage" class="hidden">
+    <div class="card glass">
 
-<div class="section-title">
-<h2>📰 アップデート情報</h2>
-</div>
+        <div class="card-title">
+            最新の投稿
+        </div>
 
-<div class="card glass">
+        <div id="homePosts">
+            <div class="loading">
+                読み込み中…
+            </div>
+        </div>
 
-<div class="update-label">
-2026/09/02
-</div>
+    </div>
 
-<h2>🚃 ROB鉄SNS 開発開始</h2>
+</section>
 
-<p>
-ROB鉄SNSの開発を開始しました。
-</p>
 
-</div>
+<!-- UPDATES -->
 
-<div class="card glass">
+<section id="updatesPage" class="page">
 
-<div class="update-label">
-INFORMATION
-</div>
+    <div class="card glass">
 
-<h2>尾羽急 アップデート情報</h2>
+        <div class="card-title">
+            🚃 尾羽急 最新情報
+        </div>
 
-<p>
-ここに尾羽急のアップデート情報を追加していくことができます。
-</p>
+        <p style="line-height:1.8">
+            ここに尾羽急電鉄の最新情報を掲載できます。
+            <br><br>
+            新型車両、ダイヤ改正、駅の追加、
+            路線情報などを投稿できます。
+        </p>
 
-</div>
+    </div>
 
-</div>
+</section>
+
+
+<!-- POSTS -->
+
+<section id="postsPage" class="page">
+
+    <div class="card glass">
+
+        <div class="card-title">
+            📝 みんなの投稿
+        </div>
+
+        <button
+            class="primary"
+            onclick="openPostModal()">
+            ＋ 新しく投稿
+        </button>
+
+    </div>
+
+    <div id="allPosts">
+        <div class="loading">
+            読み込み中…
+        </div>
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profilePage" class="page">
+
+    <div id="profileArea">
+        <div class="card glass empty">
+            ログインするとプロフィールを表示できます。
+        </div>
+    </div>
+
+</section>
 
 </main>
 
 
-<nav>
+<!-- NAV -->
 
-<div class="nav-inner">
+<nav class="bottom-nav glass">
 
-<button class="nav-btn active" onclick="showPage('homePage',this)">
-<span class="nav-icon">🏠</span>
-<span class="nav-text">ホーム</span>
-</button>
+    <button
+        class="nav-btn active"
+        onclick="showPage('home')">
+        🏠 ホーム
+    </button>
 
-<button class="nav-btn" onclick="showPage('updatePage',this)">
-<span class="nav-icon">📰</span>
-<span class="nav-text">アプデ</span>
-</button>
+    <button
+        class="nav-btn"
+        onclick="showPage('posts')">
+        📝 投稿
+    </button>
 
-<button class="nav-btn" onclick="openPostModal()">
-<span class="nav-icon">➕</span>
-<span class="nav-text">投稿</span>
-</button>
+    <button
+        class="nav-btn"
+        onclick="showPage('updates')">
+        🚃 情報
+    </button>
 
-<button class="nav-btn" onclick="openProfile()">
-<span class="nav-icon">👤</span>
-<span class="nav-text">マイページ</span>
-</button>
+    <button
+        class="nav-btn"
+        onclick="showPage('profile')">
+        👤 プロフィール
+    </button>
 
-</div>
 </nav>
 
 
@@ -579,54 +611,47 @@ INFORMATION
 
 <div id="loginModal" class="modal-bg">
 
-<div class="modal">
+    <div class="modal glass">
 
-<h2>🔐 ログイン</h2>
+        <h2>ログイン</h2>
 
-<div id="loginError" class="error"></div>
+        <input
+            id="loginEmail"
+            class="input"
+            type="email"
+            placeholder="メールアドレス">
 
-<label>ユーザー名</label>
+        <input
+            id="loginPassword"
+            class="input"
+            type="password"
+            placeholder="パスワード">
 
-<input
-id="loginName"
-type="text"
-placeholder="ユーザー名"
-/>
+        <div class="modal-buttons">
 
-<label>パスワード</label>
+            <button
+                class="primary"
+                onclick="login()">
+                ログイン
+            </button>
 
-<input
-id="loginPassword"
-type="password"
-placeholder="パスワード"
-/>
+            <button
+                class="close-btn"
+                onclick="closeModal('loginModal')">
+                閉じる
+            </button>
 
-<div class="form-buttons">
+        </div>
 
-<button class="secondary" onclick="closeModal('loginModal')">
-キャンセル
-</button>
+        <div class="switch">
+            アカウントを持っていない？
+            <button onclick="switchToRegister()">
+                新規登録
+            </button>
+        </div>
 
-<button class="primary" onclick="login()">
-ログイン
-</button>
+    </div>
 
-</div>
-
-<div style="text-align:center;margin-top:20px">
-
-まだアカウントがない？
-
-<button
-style="border:0;background:none;text-decoration:underline"
-onclick="switchToRegister()"
->
-アカウント作成
-</button>
-
-</div>
-
-</div>
 </div>
 
 
@@ -634,63 +659,54 @@ onclick="switchToRegister()"
 
 <div id="registerModal" class="modal-bg">
 
-<div class="modal">
+    <div class="modal glass">
 
-<h2>✨ アカウント作成</h2>
+        <h2>アカウント作成</h2>
 
-<div id="registerError" class="error"></div>
+        <input
+            id="registerUsername"
+            class="input"
+            type="text"
+            maxlength="20"
+            placeholder="ユーザー名">
 
-<label>ユーザー名</label>
+        <input
+            id="registerEmail"
+            class="input"
+            type="email"
+            placeholder="メールアドレス">
 
-<input
-id="registerName"
-type="text"
-maxlength="20"
-placeholder="例：尾羽急ファン"
-/>
+        <input
+            id="registerPassword"
+            class="input"
+            type="password"
+            placeholder="パスワード">
 
-<label>パスワード</label>
+        <div class="modal-buttons">
 
-<input
-id="registerPassword"
-type="password"
-placeholder="6文字以上"
-/>
+            <button
+                class="primary"
+                onclick="register()">
+                登録
+            </button>
 
-<label>パスワード確認</label>
+            <button
+                class="close-btn"
+                onclick="closeModal('registerModal')">
+                閉じる
+            </button>
 
-<input
-id="registerPassword2"
-type="password"
-placeholder="もう一度入力"
-/>
+        </div>
 
-<div class="form-buttons">
+        <div class="switch">
+            すでにアカウントがある？
+            <button onclick="switchToLogin()">
+                ログイン
+            </button>
+        </div>
 
-<button class="secondary" onclick="closeModal('registerModal')">
-キャンセル
-</button>
+    </div>
 
-<button class="primary" onclick="register()">
-アカウント作成
-</button>
-
-</div>
-
-<div style="text-align:center;margin-top:20px">
-
-すでにアカウントがある？
-
-<button
-style="border:0;background:none;text-decoration:underline"
-onclick="switchToLogin()"
->
-ログイン
-</button>
-
-</div>
-
-</div>
 </div>
 
 
@@ -698,35 +714,34 @@ onclick="switchToLogin()"
 
 <div id="postModal" class="modal-bg">
 
-<div class="modal">
+    <div class="modal glass">
 
-<h2>📝 投稿する</h2>
+        <h2>新しい投稿</h2>
 
-<div id="postError" class="error"></div>
+        <textarea
+            id="postContent"
+            class="input"
+            maxlength="1000"
+            placeholder="鉄道について投稿しよう！"></textarea>
 
-<textarea
-id="postText"
-maxlength="500"
-placeholder="ROB鉄について投稿しよう！&#10;&#10;例：今日、尾羽急の○○系に乗ってきた！"
-></textarea>
+        <div class="modal-buttons">
 
-<div style="text-align:right;color:#888;font-size:12px">
-最大500文字
-</div>
+            <button
+                class="primary"
+                onclick="createPost()">
+                投稿する
+            </button>
 
-<div class="form-buttons">
+            <button
+                class="close-btn"
+                onclick="closeModal('postModal')">
+                閉じる
+            </button>
 
-<button class="secondary" onclick="closeModal('postModal')">
-キャンセル
-</button>
+        </div>
 
-<button class="primary" onclick="createPost()">
-投稿する
-</button>
+    </div>
 
-</div>
-
-</div>
 </div>
 
 
@@ -743,140 +758,140 @@ const SUPABASE_ANON_KEY =
 "sb_publishable_-nKEIwdoeKC_-GD0UxbGXw_NbB0fGD5";
 
 const supabaseClient =
-supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
 
 
 /* =========================
-   STATE
+   初期化
 ========================= */
 
 let currentUser = null;
-let currentProfile = null;
-let posts = [];
-
-
-/* =========================
-   START
-========================= */
-
-init();
 
 
 async function init(){
 
     const {
-        data:{
-            session
-        }
-    } = await supabaseClient.auth.getSession();
+        data,
+        error
+    } = await supabaseClient.auth.getUser();
 
-    if(session){
-
-        currentUser = session.user;
-
-        await loadProfile();
-
+    if(!error && data.user){
+        currentUser = data.user;
     }
 
     updateHeader();
-
-    await renderPosts();
-
+    updateProfile();
+    loadPosts();
 }
 
 
 /* =========================
-   USERNAME → INTERNAL EMAIL
+   HEADER
 ========================= */
 
-function usernameToEmail(username){
+async function updateHeader(){
 
-    const safe =
-    username
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9_-]/g,"");
+    const nameElement =
+        document.getElementById("headerUser");
 
-    return safe + "@rob-tetsu.example";
+    const button =
+        document.getElementById("headerButton");
 
+    if(!currentUser){
+
+        nameElement.textContent =
+            "未ログイン";
+
+        button.textContent =
+            "ログイン";
+
+        button.onclick =
+            openLogin;
+
+        return;
+    }
+
+    let username =
+        currentUser.user_metadata?.username;
+
+    if(!username){
+
+        const {
+            data
+        } =
+        await supabaseClient
+        .from("profiles")
+        .select("username")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+        username =
+            data?.username ||
+            currentUser.email?.split("@")[0] ||
+            "ユーザー";
+    }
+
+    nameElement.textContent =
+        username;
+
+    button.textContent =
+        "ログアウト";
+
+    button.onclick =
+        logout;
 }
 
 
 /* =========================
-   REGISTER
+   登録
 ========================= */
 
 async function register(){
 
-    const name =
-    document
-    .getElementById("registerName")
-    .value
-    .trim();
-
-    const password =
-    document
-    .getElementById("registerPassword")
-    .value;
-
-    const password2 =
-    document
-    .getElementById("registerPassword2")
-    .value;
-
-    const error =
-    document
-    .getElementById("registerError");
-
-    error.textContent = "";
-
-
-    if(name.length < 2){
-
-        error.textContent =
-        "ユーザー名は2文字以上にしてね。";
-
-        return;
-    }
-
-
-    if(!/^[\p{L}\p{N}_-]+$/u.test(name)){
-
-        error.textContent =
-        "ユーザー名には日本語・英数字・_・-が使えます。";
-
-        return;
-    }
-
-
-    if(password.length < 6){
-
-        error.textContent =
-        "パスワードは6文字以上にしてね。";
-
-        return;
-    }
-
-
-    if(password !== password2){
-
-        error.textContent =
-        "パスワードが一致していないよ。";
-
-        return;
-    }
-
+    const username =
+        document
+        .getElementById("registerUsername")
+        .value
+        .trim();
 
     const email =
-    usernameToEmail(name);
+        document
+        .getElementById("registerEmail")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("registerPassword")
+        .value;
+
+    if(!username){
+        alert("ユーザー名を入力して！");
+        return;
+    }
+
+    if(username.length < 2){
+        alert("ユーザー名は2文字以上にしてね！");
+        return;
+    }
+
+    if(!email){
+        alert("メールアドレスを入力して！");
+        return;
+    }
+
+    if(password.length < 6){
+        alert("パスワードは6文字以上にしてね！");
+        return;
+    }
 
 
     const {
         data,
-        error:signupError
+        error
     } =
     await supabaseClient.auth.signUp({
 
@@ -886,79 +901,70 @@ async function register(){
 
         options:{
             data:{
-                username:name
+                username:username
             }
         }
 
     });
 
 
-    if(signupError){
+    if(error){
 
-        error.textContent =
-        signupError.message;
-
-        return;
-    }
-
-
-    if(!data.user){
-
-        error.textContent =
-        "アカウント作成に失敗しました。";
+        alert(
+            "登録できませんでした。\n" +
+            error.message
+        );
 
         return;
     }
 
 
-    if(!data.session){
+    if(data.user){
 
-        error.textContent =
-        "Supabaseの「Confirm email」がONになっています。OFFにしてからもう一度登録してね。";
+        const {
+            error:profileError
+        } =
+        await supabaseClient
+        .from("profiles")
+        .upsert({
 
-        return;
+            id:data.user.id,
+
+            username:username
+
+        });
+
+
+        if(profileError){
+
+            console.error(profileError);
+
+        }
     }
-
-
-    currentUser =
-    data.user;
-
-
-    const {
-        error:profileError
-    } =
-    await supabaseClient
-    .from("profiles")
-    .insert({
-
-        id:data.user.id,
-
-        username:name
-
-    });
-
-
-    if(profileError){
-
-        console.error(profileError);
-
-        error.textContent =
-        "プロフィール作成に失敗しました。";
-
-        return;
-    }
-
-
-    currentProfile = {
-        username:name
-    };
 
 
     closeModal("registerModal");
 
-    updateHeader();
 
-    alert("アカウントを作成しました！");
+    alert(
+        "登録しました！\n\n" +
+        "メール確認が必要な設定の場合は、" +
+        "届いたメールを確認してね。"
+    );
+
+
+    if(data.session){
+
+        currentUser =
+            data.user;
+
+        updateHeader();
+        updateProfile();
+
+    }else{
+
+        openLogin();
+    }
 
 }
 
@@ -969,42 +975,34 @@ async function register(){
 
 async function login(){
 
-    const name =
-    document
-    .getElementById("loginName")
-    .value
-    .trim();
+    const email =
+        document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
     const password =
-    document
-    .getElementById("loginPassword")
-    .value;
-
-    const error =
-    document
-    .getElementById("loginError");
-
-    error.textContent = "";
+        document
+        .getElementById("loginPassword")
+        .value;
 
 
-    if(!name || !password){
+    if(!email || !password){
 
-        error.textContent =
-        "ユーザー名とパスワードを入力してね。";
+        alert(
+            "メールアドレスとパスワードを入力して！"
+        );
 
         return;
     }
 
 
-    const email =
-    usernameToEmail(name);
-
-
     const {
         data,
-        error:loginError
+        error
     } =
-    await supabaseClient.auth.signInWithPassword({
+    await supabaseClient.auth
+    .signInWithPassword({
 
         email:email,
 
@@ -1013,107 +1011,26 @@ async function login(){
     });
 
 
-    if(loginError){
+    if(error){
 
-        error.textContent =
-        "ユーザー名またはパスワードが違います。";
+        alert(
+            "ログインできませんでした。\n" +
+            error.message
+        );
 
         return;
     }
 
 
     currentUser =
-    data.user;
-
-
-    await loadProfile();
+        data.user;
 
     closeModal("loginModal");
 
     updateHeader();
+    updateProfile();
 
-    await renderPosts();
-
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-async function loadProfile(){
-
-    if(!currentUser) return;
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id",currentUser.id)
-    .single();
-
-
-    if(error){
-
-        console.error(error);
-
-        return;
-    }
-
-
-    currentProfile =
-    data;
-
-}
-
-
-async function openProfile(){
-
-    if(!currentUser){
-
-        openLogin();
-
-        return;
-    }
-
-
-    showPage("profilePage");
-
-
-    const name =
-    currentProfile?.username ||
-    currentUser.user_metadata?.username ||
-    "ユーザー";
-
-
-    document
-    .getElementById("profileName")
-    .textContent = name;
-
-
-    document
-    .getElementById("profileAvatar")
-    .textContent =
-    name.charAt(0);
-
-
-    const {
-        count
-    } =
-    await supabaseClient
-    .from("posts")
-    .select("*",{count:"exact",head:true})
-    .eq("user_id",currentUser.id);
-
-
-    document
-    .getElementById("postCount")
-    .textContent =
-    count || 0;
+    alert("ログインしました！");
 
 }
 
@@ -1128,66 +1045,283 @@ async function logout(){
 
     currentUser = null;
 
-    currentProfile = null;
-
     updateHeader();
+    updateProfile();
 
-    showPage("homePage");
-
-    await renderPosts();
-
+    alert("ログアウトしました！");
 }
 
 
 /* =========================
-   HEADER
+   PROFILE
 ========================= */
 
-function updateHeader(){
+async function updateProfile(){
 
-    const header =
-    document.getElementById("headerUser");
+    const area =
+        document.getElementById("profileArea");
 
+    if(!currentUser){
 
-    if(currentUser){
-
-        const name =
-        currentProfile?.username ||
-        currentUser.user_metadata?.username ||
-        "ユーザー";
-
-
-        header.innerHTML = `
-
-        <button class="secondary"
-        onclick="openProfile()">
-
-        👤 ${escapeHTML(name)}
-
-        </button>
-
+        area.innerHTML = `
+            <div class="card glass empty">
+                ログインするとプロフィールを表示できます。
+            </div>
         `;
 
-    }else{
-
-        header.innerHTML = `
-
-        <button class="primary"
-        onclick="openLogin()">
-
-        ログイン
-
-        </button>
-
-        `;
-
+        return;
     }
 
+
+    let username =
+        currentUser.user_metadata?.username;
+
+
+    if(!username){
+
+        const {
+            data
+        } =
+        await supabaseClient
+        .from("profiles")
+        .select("username")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+        username =
+            data?.username ||
+            currentUser.email?.split("@")[0] ||
+            "ユーザー";
+    }
+
+
+    area.innerHTML = `
+
+        <div class="card glass profile">
+
+            <div class="avatar">
+                ${escapeHTML(
+                    username
+                    .charAt(0)
+                    .toUpperCase()
+                )}
+            </div>
+
+            <div class="profile-name">
+                ${escapeHTML(username)}
+            </div>
+
+            <div class="profile-info">
+                ${escapeHTML(
+                    currentUser.email || ""
+                )}
+            </div>
+
+            <button
+                class="secondary"
+                style="margin-top:20px"
+                onclick="logout()">
+                ログアウト
+            </button>
+
+        </div>
+
+    `;
 }
 
 
 /* =========================
-   POSTS
+   POSTS 読み込み
+========================= */
+
+async function loadPosts(){
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("posts")
+    .select("*")
+    .order("created_at",{
+        ascending:false
+    });
+
+
+    if(error){
+
+        console.error(error);
+
+        document.getElementById(
+            "homePosts"
+        ).innerHTML = `
+            <div class="empty">
+                投稿を読み込めませんでした。
+            </div>
+        `;
+
+        document.getElementById(
+            "allPosts"
+        ).innerHTML = `
+            <div class="empty">
+                投稿を読み込めませんでした。
+            </div>
+        `;
+
+        return;
+    }
+
+
+    renderPosts(data || []);
+}
+
+
+/* =========================
+   POST表示
+========================= */
+
+function renderPosts(posts){
+
+    if(!posts.length){
+
+        document.getElementById(
+            "homePosts"
+        ).innerHTML = `
+            <div class="empty">
+                まだ投稿がありません。
+            </div>
+        `;
+
+        document.getElementById(
+            "allPosts"
+        ).innerHTML = `
+            <div class="card glass empty">
+                まだ投稿がありません。
+            </div>
+        `;
+
+        return;
+    }
+
+
+    const html =
+        posts.map(post => {
+
+            const date =
+                formatDate(post.created_at);
+
+            const username =
+                post.username ||
+                "ユーザー";
+
+            return `
+
+                <div class="post glass">
+
+                    <div class="post-head">
+
+                        <div class="post-user">
+                            👤
+                            ${escapeHTML(username)}
+                        </div>
+
+                        <div class="post-date">
+                            ${date}
+                        </div>
+
+                    </div>
+
+                    <div class="post-content">
+                        ${escapeHTML(
+                            post.content || ""
+                        )}
+                    </div>
+
+                    <div class="post-actions">
+
+                        <button
+                            class="action-btn"
+                            onclick="likePost('${post.id}')">
+
+                            ❤️
+                            ${post.likes || 0}
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    document.getElementById(
+        "homePosts"
+    ).innerHTML =
+        posts
+        .slice(0,5)
+        .map(post => {
+
+            const date =
+                formatDate(post.created_at);
+
+            return `
+
+                <div class="post glass">
+
+                    <div class="post-head">
+
+                        <div class="post-user">
+                            👤
+                            ${escapeHTML(
+                                post.username ||
+                                "ユーザー"
+                            )}
+                        </div>
+
+                        <div class="post-date">
+                            ${date}
+                        </div>
+
+                    </div>
+
+                    <div class="post-content">
+                        ${escapeHTML(
+                            post.content || ""
+                        )}
+                    </div>
+
+                    <div class="post-actions">
+
+                        <button
+                            class="action-btn"
+                            onclick="likePost('${post.id}')">
+
+                            ❤️
+                            ${post.likes || 0}
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    document.getElementById(
+        "allPosts"
+    ).innerHTML =
+        html;
+}
+
+
+/* =========================
+   投稿作成
 ========================= */
 
 async function createPost(){
@@ -1199,206 +1333,89 @@ async function createPost(){
         openLogin();
 
         return;
-
     }
 
 
-    const text =
-    document
-    .getElementById("postText")
-    .value
-    .trim();
+    const textarea =
+        document.getElementById(
+            "postContent"
+        );
 
-    const error =
-    document
-    .getElementById("postError");
-
-    error.textContent = "";
+    const content =
+        textarea.value.trim();
 
 
-    if(!text){
+    if(!content){
 
-        error.textContent =
-        "投稿内容を入力してね。";
-
+        alert("投稿内容を入力して！");
         return;
     }
 
 
-    const username =
-    currentProfile?.username ||
-    currentUser.user_metadata?.username ||
-    "ユーザー";
+    let username =
+        currentUser.user_metadata?.username;
+
+
+    if(!username){
+
+        const {
+            data
+        } =
+        await supabaseClient
+        .from("profiles")
+        .select("username")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+        username =
+            data?.username ||
+            currentUser.email?.split("@")[0] ||
+            "ユーザー";
+    }
 
 
     const {
-        error:postError
+        error
     } =
     await supabaseClient
     .from("posts")
     .insert({
 
-        user_id:currentUser.id,
+        user_id:
+            currentUser.id,
 
-        username:username,
+        username:
+            username,
 
-        content:text,
+        content:
+            content,
 
-        likes:0
+        likes:
+            0
 
     });
-
-
-    if(postError){
-
-        console.error(postError);
-
-        error.textContent =
-        postError.message;
-
-        return;
-    }
-
-
-    document
-    .getElementById("postText")
-    .value = "";
-
-
-    closeModal("postModal");
-
-    await renderPosts();
-
-}
-
-
-/* =========================
-   LOAD POSTS
-========================= */
-
-async function renderPosts(){
-
-    const container =
-    document.getElementById("posts");
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-    .from("posts")
-    .select("*")
-    .order("created_at",{ascending:false});
 
 
     if(error){
 
         console.error(error);
 
-        container.innerHTML = `
-
-        <div class="glass empty">
-
-        投稿を読み込めませんでした。
-
-        <br><br>
-
-        ${escapeHTML(error.message)}
-
-        </div>
-
-        `;
-
-        return;
-    }
-
-
-    posts =
-    data || [];
-
-
-    if(posts.length === 0){
-
-        container.innerHTML = `
-
-        <div class="glass empty">
-
-        まだ投稿がありません。
-
-        <br><br>
-
-        最初の投稿をしてみよう！🚃
-
-        </div>
-
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-    posts.map(post => {
-
-        const username =
-        post.username || "ユーザー";
-
-
-        const first =
-        escapeHTML(
-            username.charAt(0)
+        alert(
+            "投稿できませんでした。\n" +
+            error.message
         );
 
-
-        return `
-
-        <article class="card glass">
-
-        <div class="post-head">
-
-        <div class="avatar">
-        ${first}
-        </div>
-
-        <div>
-
-        <div class="username">
-        ${escapeHTML(username)}
-        </div>
-
-        <div class="post-time">
-        ${formatDate(post.created_at)}
-        </div>
-
-        </div>
-
-        </div>
+        return;
+    }
 
 
-        <div class="post-text">
-        ${escapeHTML(post.content)}
-        </div>
+    textarea.value = "";
 
+    closeModal("postModal");
 
-        <div class="post-actions">
+    await loadPosts();
 
-        <button
-        class="action-btn"
-        onclick="likePost(${post.id},${post.likes || 0})">
-
-        ❤️ ${post.likes || 0}
-
-        </button>
-
-        </div>
-
-        </article>
-
-        `;
-
-    }).join("");
-
+    alert("投稿しました！");
 }
 
 
@@ -1406,7 +1423,7 @@ async function renderPosts(){
    LIKE
 ========================= */
 
-async function likePost(id,currentLikes){
+async function likePost(id){
 
     if(!currentUser){
 
@@ -1417,31 +1434,52 @@ async function likePost(id,currentLikes){
 
 
     const {
+        data,
         error
     } =
     await supabaseClient
     .from("posts")
-    .update({
-        likes:currentLikes + 1
-    })
-    .eq("id",id);
+    .select("likes")
+    .eq("id",id)
+    .single();
 
 
     if(error){
 
         console.error(error);
+        return;
+    }
+
+
+    const likes =
+        Number(data.likes || 0) + 1;
+
+
+    const {
+        error:updateError
+    } =
+    await supabaseClient
+    .from("posts")
+    .update({
+        likes:likes
+    })
+    .eq("id",id);
+
+
+    if(updateError){
+
+        console.error(updateError);
 
         alert(
             "いいねできませんでした。\n" +
-            error.message
+            updateError.message
         );
 
         return;
     }
 
 
-    await renderPosts();
-
+    await loadPosts();
 }
 
 
@@ -1449,20 +1487,26 @@ async function likePost(id,currentLikes){
    PAGE
 ========================= */
 
-function showPage(pageId,button){
+function showPage(page){
 
     document
-    .querySelectorAll(
-        "#homePage,#profilePage,#updatePage"
-    )
-    .forEach(page =>
-        page.classList.add("hidden")
+    .querySelectorAll(".page")
+    .forEach(p =>
+        p.classList.remove("active")
     );
 
 
-    document
-    .getElementById(pageId)
-    .classList.remove("hidden");
+    const target =
+        document.getElementById(
+            page + "Page"
+        );
+
+
+    if(target){
+
+        target.classList.add("active");
+
+    }
 
 
     document
@@ -1472,34 +1516,57 @@ function showPage(pageId,button){
     );
 
 
-    if(button){
+    const buttons =
+        document.querySelectorAll(
+            ".nav-btn"
+        );
 
-        button.classList.add("active");
 
+    const index = {
+        home:0,
+        posts:1,
+        updates:2,
+        profile:3
+    }[page];
+
+
+    if(buttons[index]){
+        buttons[index]
+        .classList.add("active");
     }
 
+
+    if(page === "posts"){
+        loadPosts();
+    }
+
+    if(page === "profile"){
+        updateProfile();
+    }
 }
 
 
 /* =========================
-   MODALS
+   MODAL
 ========================= */
 
 function openLogin(){
 
+    closeModal("registerModal");
+
     document
     .getElementById("loginModal")
     .classList.add("show");
-
 }
 
 
 function openRegister(){
 
+    closeModal("loginModal");
+
     document
     .getElementById("registerModal")
     .classList.add("show");
-
 }
 
 
@@ -1510,14 +1577,11 @@ function openPostModal(){
         openLogin();
 
         return;
-
     }
-
 
     document
     .getElementById("postModal")
     .classList.add("show");
-
 }
 
 
@@ -1526,7 +1590,6 @@ function closeModal(id){
     document
     .getElementById(id)
     .classList.remove("show");
-
 }
 
 
@@ -1535,7 +1598,6 @@ function switchToRegister(){
     closeModal("loginModal");
 
     openRegister();
-
 }
 
 
@@ -1544,14 +1606,6 @@ function switchToLogin(){
     closeModal("registerModal");
 
     openLogin();
-
-}
-
-
-function showUpdates(){
-
-    showPage("updatePage");
-
 }
 
 
@@ -1561,8 +1615,13 @@ function showUpdates(){
 
 function formatDate(date){
 
+    if(!date){
+        return "";
+    }
+
+
     const d =
-    new Date(date);
+        new Date(date);
 
 
     return d.toLocaleString(
@@ -1575,76 +1634,48 @@ function formatDate(date){
             minute:"2-digit"
         }
     );
-
 }
 
 
 /* =========================
-   SECURITY
+   XSS対策
 ========================= */
 
-function escapeHTML(text){
+function escapeHTML(value){
 
-    return String(text)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
 /* =========================
-   CLOSE MODAL
+   AUTH状態監視
 ========================= */
 
-document
-.querySelectorAll(".modal-bg")
-.forEach(bg => {
+supabaseClient.auth
+.onAuthStateChange(
+    async (event,session)=>{
 
-    bg.addEventListener(
-        "click",
-        function(e){
-
-            if(e.target === bg){
-
-                bg.classList.remove("show");
-
-            }
-
-        }
-    );
-
-});
-
-
-/* =========================
-   AUTH EVENT
-========================= */
-
-supabaseClient.auth.onAuthStateChange(
-    async (event,session) => {
-
-        if(session){
-
-            currentUser =
-            session.user;
-
-            await loadProfile();
-
-        }else{
-
-            currentUser = null;
-
-            currentProfile = null;
-
-        }
+        currentUser =
+            session?.user || null;
 
         updateHeader();
+        updateProfile();
+        loadPosts();
 
     }
 );
+
+
+/* =========================
+   START
+========================= */
+
+init();
 
 </script>
 
