@@ -1,4 +1,4 @@
-<!DOCTYPE html>qx
+<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -12,11 +12,16 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-body {
+html, body {
     margin: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
     min-height: 100vh;
     background:
-        radial-gradient(circle at center, #202020 0%, #050505 70%);
+        radial-gradient(circle at 50% 40%, #252525 0%, #090909 55%, #000 100%);
     color: white;
     font-family:
         -apple-system,
@@ -27,22 +32,26 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
     overflow-x: hidden;
 }
+
+/* =========================================
+   メイン
+========================================= */
 
 .container {
     width: min(900px, 94%);
     text-align: center;
+    padding: 25px 0;
 }
 
-/* タイトル */
-
 .logo {
-    font-size: clamp(32px, 7vw, 64px);
+    font-size: clamp(32px, 8vw, 65px);
     font-weight: 900;
-    letter-spacing: 0.08em;
+    letter-spacing: .08em;
 
-    margin-bottom: 25px;
+    margin-bottom: 8px;
 
     text-shadow:
         0 0 10px rgba(255,255,255,.5),
@@ -50,49 +59,59 @@ body {
 }
 
 .subtitle {
-    color: #aaa;
-    margin-bottom: 25px;
+    color: #888;
+    font-size: 15px;
+    margin-bottom: 28px;
 }
 
-/* ルーレット表示 */
+/* =========================================
+   ルーレット
+========================================= */
 
 .roulette-box {
     position: relative;
 
     width: 100%;
-    min-height: 250px;
+    min-height: 270px;
 
-    border-radius: 25px;
+    border-radius: 28px;
 
     background:
         linear-gradient(
-            135deg,
+            145deg,
             #111,
-            #222
+            #1c1c1c 50%,
+            #101010
         );
 
-    border: 2px solid #444;
+    border: 2px solid #3d3d3d;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    padding: 30px;
-
-    box-shadow:
-        0 0 40px rgba(0,0,0,.8),
-        inset 0 0 40px rgba(255,255,255,.03);
+    padding: 35px 25px;
 
     overflow: hidden;
+
+    box-shadow:
+        0 0 35px rgba(0,0,0,.9),
+        inset 0 0 40px rgba(255,255,255,.025);
+
+    transform: translateZ(0);
 }
+
+/* 光 */
 
 .roulette-box::before {
     content: "";
 
     position: absolute;
 
-    width: 500px;
-    height: 500px;
+    width: 650px;
+    height: 650px;
+
+    border-radius: 50%;
 
     background:
         radial-gradient(
@@ -101,7 +120,9 @@ body {
             transparent 65%
         );
 
-    animation: rotateGlow 8s linear infinite;
+    animation: rotateGlow 10s linear infinite;
+
+    pointer-events: none;
 }
 
 @keyframes rotateGlow {
@@ -114,42 +135,129 @@ body {
     }
 }
 
+/* 中央結果 */
+
 .result {
     position: relative;
     z-index: 2;
 
-    font-size: clamp(22px, 5vw, 42px);
+    width: 100%;
 
-    font-weight: 900;
-
-    line-height: 1.5;
-
-    min-height: 130px;
+    min-height: 145px;
 
     display: flex;
     flex-direction: column;
+
     justify-content: center;
+    align-items: center;
+
+    font-weight: 900;
+
+    line-height: 1.45;
+
+    transform: translateZ(0);
+
+    will-change: transform, opacity;
 }
 
 .result .train {
     font-size: clamp(18px, 4vw, 30px);
     color: #aaa;
+
+    margin-bottom: 7px;
 }
 
 .result .route {
-    font-size: clamp(25px, 6vw, 48px);
+    font-size: clamp(23px, 5.5vw, 47px);
+
+    word-break: break-word;
+
+    text-shadow:
+        0 0 12px rgba(255,255,255,.15);
 }
 
-/* ボタン */
+/* =========================================
+   抽選中
+========================================= */
+
+.spinning-result {
+    animation: resultPulse .15s ease-in-out infinite alternate;
+}
+
+@keyframes resultPulse {
+    from {
+        transform: scale(.98);
+        opacity: .75;
+    }
+
+    to {
+        transform: scale(1.02);
+        opacity: 1;
+    }
+}
+
+/* =========================================
+   レア度
+========================================= */
+
+.rarity {
+    margin-top: 20px;
+
+    min-height: 38px;
+
+    font-size: clamp(18px, 4vw, 27px);
+
+    font-weight: 900;
+}
+
+.normal {
+    color: #ddd;
+}
+
+.rare {
+    color: #62aaff;
+
+    text-shadow:
+        0 0 10px rgba(50,130,255,.7);
+}
+
+.ssr {
+    color: #d183ff;
+
+    text-shadow:
+        0 0 10px #9b35ff,
+        0 0 25px #9b35ff;
+}
+
+.ur {
+    color: #ffb33c;
+
+    text-shadow:
+        0 0 10px #ff8c00,
+        0 0 25px #ff4500,
+        0 0 45px #ff4500;
+}
+
+.lr {
+    color: #ff6666;
+
+    text-shadow:
+        0 0 10px red,
+        0 0 25px red,
+        0 0 50px orange;
+}
+
+/* =========================================
+   ボタン
+========================================= */
 
 button {
-    margin-top: 30px;
+    margin-top: 28px;
 
     border: none;
+    outline: none;
 
-    padding:
-        18px
-        55px;
+    padding: 18px 60px;
 
     border-radius: 999px;
 
@@ -162,96 +270,91 @@ button {
         linear-gradient(
             135deg,
             #0077ff,
-            #00b7ff
+            #00baff
         );
 
     box-shadow:
-        0 8px 30px rgba(0,140,255,.35);
+        0 7px 25px rgba(0,140,255,.35);
 
     cursor: pointer;
 
+    transform: translateZ(0);
+
     transition:
-        transform .15s,
-        box-shadow .15s;
+        transform .12s ease,
+        box-shadow .2s ease,
+        opacity .2s ease;
 }
 
 button:active {
     transform: scale(.94);
 }
 
+button:hover {
+    box-shadow:
+        0 8px 35px rgba(0,160,255,.55);
+}
+
 button:disabled {
-    opacity: .5;
+    opacity: .45;
+    cursor: default;
 }
 
-/* レア表示 */
-
-.rarity {
-    margin-top: 20px;
-
-    font-size: 24px;
-
-    font-weight: 900;
-
-    min-height: 35px;
-}
-
-.normal {
-    color: #ddd;
-}
-
-.rare {
-    color: #5fa8ff;
-}
-
-.ssr {
-    color: #c879ff;
-    text-shadow: 0 0 15px #9b35ff;
-}
-
-.ur {
-    color: #ffae3b;
-    text-shadow:
-        0 0 10px #ff8c00,
-        0 0 30px #ff4500;
-}
-
-.lr {
-    color: #ff5555;
-    text-shadow:
-        0 0 10px red,
-        0 0 30px red,
-        0 0 60px orange;
-}
-
-/* 共通演出 */
+/* =========================================
+   通常フラッシュ
+========================================= */
 
 .flash {
-    animation: flash .25s infinite alternate;
+    animation:
+        boxFlash .18s ease-in-out 6;
 }
 
-@keyframes flash {
-    from {
+@keyframes boxFlash {
+
+    0%, 100% {
         filter: brightness(1);
     }
 
-    to {
-        filter: brightness(2.5);
+    50% {
+        filter: brightness(2.2);
     }
 }
 
+/* =========================================
+   揺れ
+========================================= */
+
 .shake {
-    animation: shake .08s infinite;
+    animation:
+        screenShake .07s linear infinite;
 }
 
-@keyframes shake {
-    0%   { transform: translate(2px, 1px); }
-    25%  { transform: translate(-2px, -1px); }
-    50%  { transform: translate(1px, -2px); }
-    75%  { transform: translate(-1px, 2px); }
-    100% { transform: translate(2px, 1px); }
+@keyframes screenShake {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(3px,-2px);
+    }
+
+    50% {
+        transform: translate(-3px,2px);
+    }
+
+    75% {
+        transform: translate(2px,2px);
+    }
+
+    100% {
+        transform: translate(-2px,-2px);
+    }
 }
 
-/* プレミア */
+/* =========================================
+   PREMIUM
+========================================= */
 
 .premium {
     position: fixed;
@@ -269,8 +372,8 @@ button:disabled {
         radial-gradient(
             circle,
             rgba(255,255,255,.35),
-            rgba(255,0,0,.15),
-            rgba(0,0,0,.95)
+            rgba(255,40,40,.15),
+            rgba(0,0,0,.94)
         );
 
     pointer-events: none;
@@ -278,11 +381,13 @@ button:disabled {
 
 .premium.show {
     display: flex;
-    animation: premiumIn .7s ease;
+
+    animation:
+        premiumIn .45s ease forwards;
 }
 
 .premium-text {
-    font-size: clamp(45px, 13vw, 130px);
+    font-size: clamp(45px, 14vw, 140px);
 
     font-weight: 1000;
 
@@ -296,10 +401,11 @@ button:disabled {
         0 0 70px orange;
 
     animation:
-        premiumText .6s ease infinite alternate;
+        premiumText .35s ease-in-out infinite alternate;
 }
 
 @keyframes premiumIn {
+
     from {
         opacity: 0;
     }
@@ -310,23 +416,48 @@ button:disabled {
 }
 
 @keyframes premiumText {
+
     from {
         transform: scale(.85);
     }
 
     to {
-        transform: scale(1.05);
+        transform: scale(1.08);
     }
 }
 
-/* 注意書き */
+/* =========================================
+   小さい画面
+========================================= */
+
+@media (max-width: 600px) {
+
+    .container {
+        width: 92%;
+    }
+
+    .roulette-box {
+        min-height: 240px;
+        padding: 25px 15px;
+    }
+
+    button {
+        width: 85%;
+        max-width: 350px;
+    }
+
+}
+
+/* =========================================
+   注意
+========================================= */
 
 .info {
-    margin-top: 25px;
+    margin-top: 22px;
 
-    color: #777;
+    color: #666;
 
-    font-size: 13px;
+    font-size: 12px;
 }
 </style>
 </head>
@@ -341,13 +472,19 @@ button:disabled {
     </div>
 
     <div class="subtitle">
-        今日の列車運行を決めろ！
+        今日の列車を決めろ！
     </div>
 
 
-    <div class="roulette-box" id="rouletteBox">
+    <div
+        class="roulette-box"
+        id="rouletteBox"
+    >
 
-        <div class="result" id="result">
+        <div
+            class="result"
+            id="result"
+        >
 
             <div class="train">
                 🎰 準備完了
@@ -362,10 +499,15 @@ button:disabled {
     </div>
 
 
-    <div class="rarity" id="rarity"></div>
+    <div
+        class="rarity"
+        id="rarity"
+    ></div>
 
 
-    <button id="spinButton">
+    <button
+        id="spinButton"
+    >
         🎰 回す！
     </button>
 
@@ -377,9 +519,17 @@ button:disabled {
 </div>
 
 
-<div class="premium" id="premium">
+<!-- PREMIUM演出 -->
 
-    <div class="premium-text" id="premiumText">
+<div
+    class="premium"
+    id="premium"
+>
+
+    <div
+        class="premium-text"
+        id="premiumText"
+    >
         PREMIUM
     </div>
 
@@ -389,7 +539,7 @@ button:disabled {
 <script>
 
 /* =========================================
-   尾羽急ルーレット データ
+   尾羽急 列車データ
 ========================================= */
 
 const trains = [
@@ -441,20 +591,17 @@ const trains = [
 
 "尾羽原発特急ほしみ金田新都心行き",
 
-
 "井口発普通列車本郷行き",
 
 "井口発普通列車千鳥行き(井問)",
 
 "井口発普通列車千鳥行き(千鳥支)",
 
-
 "北尾羽発普通百鳥行き",
 "北尾羽発普通金田行き",
 "北尾羽発普通金田新都心行き",
 
 "北尾羽発特急はね金田新都心行き",
-
 
 "千鳥発普通金田行き",
 "千鳥発普通金田新都心行き",
@@ -615,6 +762,10 @@ function showResult(train) {
         </div>
     `;
 
+    result.classList.remove(
+        "spinning-result"
+    );
+
     rarity.textContent =
         rare.name;
 
@@ -624,7 +775,7 @@ function showResult(train) {
 
 
 /* =========================================
-   演出
+   レア演出
 ========================================= */
 
 function playEffect(type) {
@@ -634,19 +785,27 @@ function playEffect(type) {
         "shake"
     );
 
-    premium.classList.remove("show");
+    premium.classList.remove(
+        "show"
+    );
 
+
+    /* 急行 */
 
     if(type === "急行") {
 
         box.classList.add("flash");
 
         setTimeout(() => {
+
             box.classList.remove("flash");
-        }, 1000);
+
+        }, 1200);
 
     }
 
+
+    /* 快速急行 */
 
     if(type === "快速急行") {
 
@@ -656,10 +815,12 @@ function playEffect(type) {
 
             box.classList.remove("shake");
 
-        }, 1400);
+        }, 1500);
 
     }
 
+
+    /* 特急 */
 
     if(type === "特急") {
 
@@ -672,16 +833,20 @@ function playEffect(type) {
             premiumText.textContent =
                 "🌈 PREMIUM 🌈";
 
-            premium.classList.add("show");
+            premium.classList.add(
+                "show"
+            );
 
 
             setTimeout(() => {
 
-                premium.classList.remove("show");
+                premium.classList.remove(
+                    "show"
+                );
 
             }, 1800);
 
-        }, 900);
+        }, 700);
 
     }
 
@@ -689,10 +854,11 @@ function playEffect(type) {
 
 
 /* =========================================
-   ルーレット
+   ルーレット本体
 ========================================= */
 
 let spinning = false;
+
 
 button.addEventListener(
     "click",
@@ -707,17 +873,124 @@ button.addEventListener(
 
         rarity.textContent = "";
 
-        let count = 0;
+
+        /*
+            最終結果を先に決定
+        */
+
+        const selected =
+            trains[
+                Math.floor(
+                    Math.random()
+                    * trains.length
+                )
+            ];
+
+
+        const type =
+            getType(selected);
+
+
+        /*
+            回転回数
+        */
 
         const total =
-            35 + Math.floor(
+            55 +
+            Math.floor(
                 Math.random() * 20
             );
 
-        let speed = 55;
 
+        let count = 0;
+
+
+        /*
+            ルーレット開始
+        */
 
         function roll() {
+
+            count++;
+
+
+            const progress =
+                count / total;
+
+
+            /*
+                速度計算
+
+                スタート
+                ↓
+                加速
+                ↓
+                高速
+                ↓
+                減速
+            */
+
+            let speed;
+
+
+            /* -------------------------
+               始動
+            ------------------------- */
+
+            if(progress < 0.15) {
+
+                const p =
+                    progress / 0.15;
+
+                /*
+                    190ms
+                    ↓
+                    55ms
+                */
+
+                speed =
+                    190 -
+                    (p * 135);
+
+            }
+
+
+            /* -------------------------
+               高速
+            ------------------------- */
+
+            else if(progress < 0.62) {
+
+                speed = 55;
+
+            }
+
+
+            /* -------------------------
+               減速
+            ------------------------- */
+
+            else {
+
+                const p =
+                    (progress - 0.62) / 0.38;
+
+                /*
+                    55ms
+                    ↓
+                    350ms
+                */
+
+                speed =
+                    55 +
+                    (p * 295);
+
+            }
+
+
+            /*
+                抽選中の表示
+            */
 
             const temp =
                 trains[
@@ -726,6 +999,7 @@ button.addEventListener(
                         * trains.length
                     )
                 ];
+
 
             result.innerHTML = `
                 <div class="train">
@@ -738,24 +1012,20 @@ button.addEventListener(
             `;
 
 
-            count++;
+            result.classList.add(
+                "spinning-result"
+            );
 
+
+            /*
+                終了
+            */
 
             if(count >= total) {
 
                 finish();
 
                 return;
-
-            }
-
-
-            if(
-                count >
-                total * .65
-            ) {
-
-                speed += 15;
 
             }
 
@@ -768,40 +1038,54 @@ button.addEventListener(
         }
 
 
+        /*
+            最終停止
+        */
+
         function finish() {
 
-            const selected =
-                trains[
-                    Math.floor(
-                        Math.random()
-                        * trains.length
-                    )
-                ];
+            result.classList.remove(
+                "spinning-result"
+            );
 
 
-            const type =
-                getType(selected);
+            /*
+                一瞬暗くする
+            */
+
+            result.style.opacity = "0.2";
 
 
-            showResult(selected);
+            setTimeout(() => {
+
+                result.style.opacity = "1";
+
+                showResult(selected);
 
 
-            setTimeout(
-                () => {
+                /*
+                    少し間を置いて
+                    レア演出
+                */
+
+                setTimeout(() => {
 
                     playEffect(type);
 
                     spinning = false;
 
-                    button.disabled =
-                        false;
+                    button.disabled = false;
 
-                },
-                150
-            );
+                }, 180);
+
+            }, 180);
 
         }
 
+
+        /*
+            始動
+        */
 
         roll();
 
