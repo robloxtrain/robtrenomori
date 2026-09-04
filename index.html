@@ -3,512 +3,508 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>尾羽急ルーレット</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans JP",sans-serif;
-  background:#030308;
-  color:white;
+    margin:0;
+    width:100%;
+    min-height:100%;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    background:#050505;
+    color:white;
+    overflow-x:hidden;
 }
 
 body{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  position:relative;
+    min-height:100vh;
 }
 
 #background{
-  position:fixed;
-  inset:0;
-  background:
-    radial-gradient(circle at 50% 45%,
-      #35177c 0%,
-      #110b2b 35%,
-      #050509 75%,
-      #000 100%);
-  z-index:-10;
+    position:fixed;
+    inset:0;
+    z-index:-10;
+    background:
+        radial-gradient(circle at 50% 20%,#292929 0%,#090909 45%,#000 100%);
 }
 
 #rainbowBg{
-  position:fixed;
-  inset:-60%;
-  background:conic-gradient(
-    red,
-    orange,
-    yellow,
-    lime,
-    cyan,
-    blue,
-    violet,
-    magenta,
-    red
-  );
-  opacity:0;
-  filter:blur(35px);
-  z-index:-9;
-  transition:opacity:.3s;
+    position:fixed;
+    inset:-50%;
+    z-index:-9;
+    opacity:.08;
+    background:
+        conic-gradient(
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        );
+    animation:rainbowRotate 10s linear infinite;
 }
 
-#flash{
-  position:fixed;
-  inset:0;
-  background:white;
-  opacity:0;
-  pointer-events:none;
-  z-index:9999;
+@keyframes rainbowRotate{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
 }
-
-.flashAnimation{
-  animation:flash .35s ease;
-}
-
-@keyframes flash{
-  0%{opacity:0}
-  15%{opacity:1}
-  100%{opacity:0}
-}
-
-
-/* =========================
-   メイン
-========================= */
 
 .container{
-  width:min(920px,94vw);
-  text-align:center;
-  position:relative;
+    width:100%;
+    max-width:900px;
+    margin:auto;
+    padding:25px 15px 50px;
+    text-align:center;
 }
 
 h1{
-  margin:0;
-  font-size:clamp(34px,8vw,70px);
-  font-weight:1000;
-  letter-spacing:4px;
+    margin:5px 0 5px;
+    font-size:clamp(35px,8vw,75px);
+    font-weight:1000;
+    letter-spacing:4px;
+    color:white;
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #00eaff,
+        0 0 30px #008cff,
+        0 0 60px #0066ff;
+    animation:titlePulse 1.8s infinite alternate;
+}
 
-  text-shadow:
-    0 0 5px white,
-    0 0 15px #9d5cff,
-    0 0 35px #7b32ff,
-    0 0 70px #7b32ff;
+@keyframes titlePulse{
+    from{
+        transform:scale(1);
+        filter:brightness(1);
+    }
+    to{
+        transform:scale(1.025);
+        filter:brightness(1.4);
+    }
 }
 
 .subtitle{
-  margin-top:3px;
-  margin-bottom:12px;
-  font-size:14px;
-  opacity:.7;
+    font-size:14px;
+    opacity:.75;
+    margin-bottom:10px;
 }
 
 #mode{
-  display:inline-block;
-  padding:7px 22px;
-  margin-bottom:15px;
-
-  border-radius:999px;
-  border:2px solid #555;
-
-  background:#1b1b27;
-  font-weight:1000;
+    display:inline-block;
+    padding:7px 18px;
+    border-radius:999px;
+    margin-bottom:20px;
+    font-weight:900;
+    font-size:15px;
+    background:#222;
+    border:1px solid #555;
+    box-shadow:0 0 15px #000;
 }
 
-#mode.kakuhen{
-  background:
-    linear-gradient(
-      90deg,
-      #ff0080,
-      #7b2cff,
-      #00d9ff,
-      #7b2cff,
-      #ff0080
-    );
-  background-size:300% 100%;
-
-  border-color:white;
-
-  box-shadow:
-    0 0 10px white,
-    0 0 30px #ff00ff,
-    0 0 60px #00ffff;
-
-  animation:kakuhenMode .7s linear infinite;
+.kakuhen{
+    background:
+        linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        );
+    background-size:400% 100%;
+    animation:kakuhenRainbow 1s linear infinite;
+    color:white;
+    border:2px solid white;
+    box-shadow:
+        0 0 10px white,
+        0 0 30px cyan,
+        0 0 50px magenta;
 }
 
-@keyframes kakuhenMode{
-  0%{background-position:0%}
-  100%{background-position:300%}
+@keyframes kakuhenRainbow{
+    from{background-position:0% 50%}
+    to{background-position:400% 50%}
 }
 
-
-/* =========================
-   スロット
-========================= */
+/* スロット */
 
 .slot{
-  position:relative;
-  height:300px;
+    position:relative;
+    width:100%;
+    height:120px;
+    overflow:hidden;
+    border-radius:20px;
+    padding:5px;
 
-  padding:8px;
+    background:
+        linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        );
 
-  border-radius:35px;
+    background-size:300% 100%;
+    animation:borderRainbow 2s linear infinite;
 
-  background:
-    linear-gradient(#14141f,#050509) padding-box,
-    linear-gradient(
-      135deg,
-      white,
-      #8c4cff,
-      #00eaff,
-      white,
-      #ff00cc
-    ) border-box;
-
-  border:5px solid transparent;
-
-  box-shadow:
-    0 0 15px #8b5cf6,
-    0 0 40px #5b2cff,
-    0 0 80px #00aaff,
-    inset 0 0 45px black;
-
-  overflow:hidden;
+    box-shadow:
+        0 0 10px white,
+        0 0 25px cyan,
+        0 0 50px #0066ff,
+        inset 0 0 20px black;
 }
 
-.slot::before,
-.slot::after{
-  content:"";
-  position:absolute;
-  left:0;
-  right:0;
-  height:85px;
-
-  z-index:5;
-  pointer-events:none;
+@keyframes borderRainbow{
+    from{background-position:0% 50%}
+    to{background-position:300% 50%}
 }
-
-.slot::before{
-  top:0;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(0,0,0,.96),
-      transparent
-    );
-}
-
-.slot::after{
-  bottom:0;
-  background:
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.96),
-      transparent
-    );
-}
-
-
-/*
-  中央の表示位置
-
-  線は使わず、
-  中央の文字がここに来るようにする
-*/
 
 .reel{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    border-radius:15px;
+    background:#050505;
+    position:relative;
 }
 
 .reelTrack{
-  position:absolute;
-  width:100%;
-  left:0;
-  top:0;
+    width:100%;
+    will-change:transform;
 }
 
 .reelItem{
-  height:95px;
+    width:100%;
+    height:110px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
 
-  display:flex;
-  justify-content:center;
-  align-items:center;
+    padding:10px;
 
-  padding:0 10px;
+    font-size:clamp(18px,4vw,34px);
+    font-weight:1000;
 
-  font-size:clamp(21px,5vw,44px);
-  font-weight:1000;
+    color:white;
 
-  white-space:nowrap;
-
-  text-shadow:
-    0 0 5px white,
-    0 0 15px currentColor,
-    0 0 35px currentColor;
+    text-shadow:
+        0 0 5px white,
+        0 0 15px cyan,
+        0 0 25px blue;
 }
 
+/* 中央を強調するための光だけ。線は入れない */
 
-/* =========================
-   結果
-========================= */
+.slot::after{
+    content:"";
+    position:absolute;
+    left:5%;
+    right:5%;
+    top:50%;
+    height:55%;
+    transform:translateY(-50%);
+    border-radius:15px;
+    pointer-events:none;
+
+    box-shadow:
+        inset 0 0 25px rgba(255,255,255,.16),
+        inset 0 0 50px rgba(0,220,255,.10);
+
+    background:rgba(255,255,255,.015);
+}
+
+/* 結果 */
 
 #result{
-  min-height:60px;
-  margin-top:12px;
+    min-height:60px;
+    margin-top:22px;
+    font-size:clamp(22px,5vw,40px);
+    font-weight:1000;
+    word-break:break-word;
 
-  font-size:clamp(20px,5vw,40px);
-  font-weight:1000;
-
-  text-shadow:
-    0 0 8px white,
-    0 0 20px #8b5cf6,
-    0 0 40px #8b5cf6;
+    text-shadow:
+        0 0 5px white,
+        0 0 15px cyan,
+        0 0 30px blue;
 }
 
 #rarity{
-  min-height:28px;
-  font-size:22px;
-  font-weight:1000;
+    min-height:35px;
+    margin-top:8px;
+    font-size:22px;
+    font-weight:1000;
 }
 
-
-/* =========================
-   ボタン
-========================= */
-
-#spinButton{
-  width:min(500px,90vw);
-  height:75px;
-
-  margin-top:18px;
-
-  border:0;
-  border-radius:24px;
-
-  color:white;
-
-  font-size:30px;
-  font-weight:1000;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ff006e,
-      #792cff,
-      #00c8ff
-    );
-
-  box-shadow:
-    0 0 15px #ff00aa,
-    0 0 35px #743cff,
-    0 0 70px #00c8ff;
-}
-
-#spinButton:active{
-  transform:scale(.94);
-}
-
-#spinButton:disabled{
-  opacity:.45;
-}
-
-
-/* =========================
-   全画面演出
-========================= */
-
-.overlay{
-  position:fixed;
-  inset:0;
-
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-
-  z-index:8000;
-
-  pointer-events:none;
-
-  opacity:0;
-}
-
-.overlay.show{
-  opacity:1;
-}
-
-.overlayText{
-  font-size:clamp(55px,15vw,180px);
-  line-height:.9;
-
-  font-weight:1000;
-  text-align:center;
-
-  text-shadow:
-    0 0 10px white,
-    0 0 30px currentColor,
-    0 0 70px currentColor,
-    0 0 130px currentColor;
-}
-
-.overlaySub{
-  margin-top:20px;
-
-  font-size:clamp(20px,5vw,50px);
-  font-weight:1000;
-
-  text-shadow:
-    0 0 10px white,
-    0 0 30px #00eaff;
-}
-
-
-/* =========================
-   虹文字
-========================= */
-
-.rainbow{
-  background:
-    linear-gradient(
-      90deg,
-      red,
-      orange,
-      yellow,
-      lime,
-      cyan,
-      blue,
-      violet,
-      magenta,
-      red
-    );
-
-  background-size:500% 100%;
-
-  -webkit-background-clip:text;
-  background-clip:text;
-
-  color:transparent;
-
-  animation:
-    rainbowText .6s linear infinite;
-}
-
-@keyframes rainbowText{
-  from{background-position:0%}
-  to{background-position:500%}
-}
-
-
-/* =========================
-   揺れ
-========================= */
-
-.shake{
-  animation:shake .07s infinite;
-}
-
-@keyframes shake{
-  0%{transform:translate(0,0)}
-  25%{transform:translate(8px,-5px)}
-  50%{transform:translate(-8px,6px)}
-  75%{transform:translate(6px,7px)}
-  100%{transform:translate(-6px,-6px)}
-}
-
-
-/* =========================
-   パルス
-========================= */
-
-.pulse{
-  animation:pulse .22s infinite alternate;
-}
-
-@keyframes pulse{
-  from{transform:scale(1)}
-  to{transform:scale(1.07)}
-}
-
-
-/* =========================
-   パーティクル
-========================= */
-
-.particle{
-  position:fixed;
-
-  width:9px;
-  height:9px;
-
-  border-radius:50%;
-
-  background:white;
-
-  box-shadow:
-    0 0 8px white,
-    0 0 20px #00eaff,
-    0 0 35px #ff00ff;
-
-  pointer-events:none;
-
-  z-index:8500;
-}
-
-
-/* =========================
-   レア度
-========================= */
+/* レアリティ */
 
 .n{
-  color:#ddd;
+    color:#aaa;
+    text-shadow:0 0 10px #aaa;
 }
 
 .r{
-  color:#5cff7a;
+    color:#4da6ff;
+    text-shadow:
+        0 0 10px #4da6ff,
+        0 0 25px #008cff;
 }
 
 .sr{
-  color:#00d9ff;
+    color:#b66cff;
+    text-shadow:
+        0 0 10px #b66cff,
+        0 0 25px #8b00ff,
+        0 0 45px #ff00ff;
 }
 
 .ssr{
-  color:#ffd000;
+    color:#ffd700;
+    text-shadow:
+        0 0 10px #ffd700,
+        0 0 25px orange,
+        0 0 45px red;
 }
 
 .ur{
-  color:#ff4cff;
+    color:#00ffff;
+    text-shadow:
+        0 0 10px cyan,
+        0 0 25px blue,
+        0 0 50px magenta;
 }
 
 .lr{
-  color:white;
+    color:white;
+    background:
+        linear-gradient(
+            90deg,
+            red,
+            orange,
+            yellow,
+            lime,
+            cyan,
+            blue,
+            magenta,
+            red
+        );
+    background-size:400% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:rainbowText 1s linear infinite;
+
+    filter:
+        drop-shadow(0 0 8px white)
+        drop-shadow(0 0 20px cyan)
+        drop-shadow(0 0 35px magenta);
 }
 
+@keyframes rainbowText{
+    from{background-position:0% 50%}
+    to{background-position:400% 50%}
+}
 
-/* =========================
-   スマホ
-========================= */
+/* ボタン */
+
+#spinButton{
+    margin-top:25px;
+    width:min(500px,90%);
+    padding:18px 20px;
+
+    border:none;
+    border-radius:18px;
+
+    font-size:28px;
+    font-weight:1000;
+
+    color:white;
+    background:
+        linear-gradient(
+            90deg,
+            #ff0066,
+            #ff8800,
+            #ffee00,
+            #00ff88,
+            #00ccff,
+            #6600ff,
+            #ff00cc
+        );
+
+    background-size:300% 100%;
+    animation:buttonRainbow 2s linear infinite;
+
+    box-shadow:
+        0 0 15px white,
+        0 0 35px cyan,
+        0 0 60px magenta;
+
+    cursor:pointer;
+}
+
+@keyframes buttonRainbow{
+    from{background-position:0% 50%}
+    to{background-position:300% 50%}
+}
+
+#spinButton:active{
+    transform:scale(.94);
+}
+
+#spinButton:disabled{
+    opacity:.45;
+    filter:grayscale(.5);
+}
+
+/* オーバーレイ */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    z-index:100;
+
+    display:none;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,255,255,.22),
+            rgba(0,0,0,.92) 65%
+        );
+
+    pointer-events:none;
+}
+
+.overlayText{
+    font-size:clamp(42px,11vw,100px);
+    font-weight:1000;
+    text-align:center;
+
+    color:white;
+
+    text-shadow:
+        0 0 10px white,
+        0 0 30px cyan,
+        0 0 60px blue,
+        0 0 100px magenta;
+
+    animation:overlayPulse .55s infinite alternate;
+}
+
+.overlaySub{
+    margin-top:15px;
+    font-size:clamp(20px,5vw,40px);
+    font-weight:900;
+}
+
+@keyframes overlayPulse{
+    from{
+        transform:scale(1);
+        opacity:.8;
+    }
+    to{
+        transform:scale(1.08);
+        opacity:1;
+    }
+}
+
+/* フラッシュ */
+
+#flash{
+    position:fixed;
+    inset:0;
+    z-index:200;
+
+    background:white;
+    opacity:0;
+    pointer-events:none;
+}
+
+/* エフェクト */
+
+.shake{
+    animation:shake .08s infinite;
+}
+
+@keyframes shake{
+    0%{transform:translate(0,0)}
+    25%{transform:translate(5px,-4px)}
+    50%{transform:translate(-5px,4px)}
+    75%{transform:translate(4px,5px)}
+    100%{transform:translate(-4px,-5px)}
+}
+
+.pulse{
+    animation:pulse .35s infinite alternate;
+}
+
+@keyframes pulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.08)}
+}
+
+.particle{
+    position:fixed;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    z-index:300;
+    pointer-events:none;
+
+    background:white;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px cyan;
+}
+
+/* スマホ */
 
 @media(max-width:600px){
+    .container{
+        padding-top:18px;
+    }
 
-  .slot{
-    height:270px;
-  }
+    h1{
+        letter-spacing:2px;
+    }
 
-  .reelItem{
-    height:85px;
-  }
+    .slot{
+        height:120px;
+    }
 
+    .reelItem{
+        height:110px;
+        font-size:19px;
+    }
+
+    #spinButton{
+        font-size:24px;
+    }
 }
 </style>
 </head>
@@ -519,76 +515,48 @@ h1{
 <div id="rainbowBg"></div>
 <div id="flash"></div>
 
-
 <div class="container">
 
-  <h1>尾羽急ルーレット</h1>
+    <h1>尾羽急ルーレット</h1>
 
-  <div class="subtitle">
-    超超超激アツ・昇格・確変搭載
-  </div>
-
-  <div id="mode">
-    通常時
-  </div>
-
-
-  <div class="slot" id="slot">
-
-    <div class="reel">
-
-      <div
-        class="reelTrack"
-        id="reelTrack">
-      </div>
-
+    <div class="subtitle">
+        尾羽急の列車を引き当てろ！
     </div>
 
-  </div>
+    <div id="mode">
+        通常モード
+    </div>
 
+    <div class="slot">
+        <div class="reel">
+            <div id="reelTrack" class="reelTrack"></div>
+        </div>
+    </div>
 
-  <div id="result">
-    START
-  </div>
+    <div id="result">
+        ルーレットを回してね！
+    </div>
 
-  <div id="rarity"></div>
+    <div id="rarity"></div>
 
-
-  <button
-    id="spinButton"
-    onclick="spin()">
-    🎰 回す！
-  </button>
-
-</div>
-
-
-<!-- 全画面演出 -->
-
-<div
-  class="overlay"
-  id="overlay">
-
-  <div
-    class="overlayText"
-    id="overlayText">
-  </div>
-
-  <div
-    class="overlaySub"
-    id="overlaySub">
-  </div>
+    <button id="spinButton">
+        🎰 回す！
+    </button>
 
 </div>
 
+<div id="overlay" class="overlay">
+    <div id="overlayText" class="overlayText"></div>
+    <div id="overlaySub" class="overlaySub"></div>
+</div>
 
 <script>
 
-/* =====================================================
-   尾羽急列車データ
-===================================================== */
+/* =========================================
+   尾羽急 列車リスト
+========================================= */
 
-const trains=[
+const trains = [
 
 "尾羽原発普通安越行き",
 "尾羽原発普通雲谷行き",
@@ -673,1328 +641,997 @@ const trains=[
 ];
 
 
-/* =====================================================
+/* =========================================
    状態
-===================================================== */
+========================================= */
 
-let spinning=false;
-let kakuhen=false;
+let spinning = false;
+let kakuhen = false;
 
 
-/* =====================================================
-   種別
-===================================================== */
+/* =========================================
+   列車種別
+   ※ 判定順が重要
+========================================= */
 
 function getType(train){
 
-  if(
-    train.includes("特急") ||
-    train.includes("air特急")
-  ){
-    return "特急";
-  }
+    if(train.includes("特急") || train.includes("air特急")){
+        return "特急";
+    }
 
-  if(train.includes("快速急行")){
-    return "快速急行";
-  }
+    if(train.includes("快速急行")){
+        return "快速急行";
+    }
 
-  if(train.includes("エアポート急行")){
-    return "エアポート急行";
-  }
+    if(train.includes("エアポート急行")){
+        return "エアポート急行";
+    }
 
-  if(train.includes("急行")){
-    return "急行";
-  }
+    if(train.includes("急行")){
+        return "急行";
+    }
 
-  if(train.includes("快速")){
-    return "快速";
-  }
+    if(train.includes("快速")){
+        return "快速";
+    }
 
-  if(train.includes("準急")){
-    return "準急";
-  }
+    if(train.includes("準急")){
+        return "準急";
+    }
 
-  return "普通";
+    return "普通";
 }
 
 
-/* =====================================================
-   レア度
-===================================================== */
+/* =========================================
+   レアリティ
+========================================= */
 
 function getRarity(type){
 
-  switch(type){
+    switch(type){
 
-    case "普通":
-      return ["N","n"];
+        case "普通":
+            return ["N","n"];
 
-    case "準急":
-      return ["R","r"];
+        case "準急":
+            return ["R","r"];
 
-    case "快速":
-      return ["SR","sr"];
+        case "快速":
+            return ["SR","sr"];
 
-    case "急行":
-      return ["SSR","ssr"];
+        case "急行":
+            return ["SSR","ssr"];
 
-    case "エアポート急行":
-      return ["UR","ur"];
+        case "エアポート急行":
+            return ["UR","ur"];
 
-    case "快速急行":
-      return ["UR","ur"];
+        case "快速急行":
+            return ["UR","ur"];
 
-    case "特急":
-      return ["LR","lr"];
-
-    default:
-      return ["N","n"];
-  }
+        case "特急":
+            return ["LR","lr"];
+    }
 }
 
 
-/* =====================================================
+/* =========================================
    ランク
-===================================================== */
+========================================= */
 
-const rank={
+function rank(type){
 
-  "普通":1,
-  "準急":2,
-  "快速":3,
-  "急行":4,
-  "エアポート急行":5,
-  "快速急行":6,
-  "特急":7
+    const ranks = {
+        "普通":1,
+        "準急":2,
+        "快速":3,
+        "急行":4,
+        "エアポート急行":5,
+        "快速急行":6,
+        "特急":7
+    };
 
-};
+    return ranks[type] || 1;
+}
 
 
-/* =====================================================
-   重み付き抽選
-===================================================== */
+/* =========================================
+   完全ランダム抽選
+   ★ 全列車が完全に同じ確率
+========================================= */
 
 function chooseTrain(){
 
-  let weights=[];
+    const index =
+        Math.floor(Math.random() * trains.length);
 
-  for(const train of trains){
-
-    const type=getType(train);
-
-    let weight=1;
-
-    if(kakuhen){
-
-      switch(type){
-
-        case "普通":
-          weight=1;
-          break;
-
-        case "準急":
-          weight=2;
-          break;
-
-        case "快速":
-          weight=4;
-          break;
-
-        case "急行":
-          weight=7;
-          break;
-
-        case "エアポート急行":
-          weight=9;
-          break;
-
-        case "快速急行":
-          weight=12;
-          break;
-
-        case "特急":
-          weight=15;
-          break;
-
-      }
-    }
-
-    weights.push(weight);
-  }
-
-
-  const total=
-    weights.reduce(
-      (a,b)=>a+b,
-      0
-    );
-
-  let r=
-    Math.random()*total;
-
-
-  for(let i=0;i<trains.length;i++){
-
-    r-=weights[i];
-
-    if(r<=0){
-      return trains[i];
-    }
-
-  }
-
-  return trains[0];
+    return trains[index];
 }
 
 
-/* =====================================================
+/* =========================================
+   昇格対象
+   ★ 中央に止まった結果に対してだけ実行
+========================================= */
+
+function canUpgrade(type){
+
+    return (
+        type === "急行" ||
+        type === "エアポート急行" ||
+        type === "快速急行"
+    );
+}
+
+
+/* =========================================
    昇格確率
-===================================================== */
+
+   ★ 普通・準急・快速・特急には
+     昇格処理を一切しない
+
+   ★ 当選した列車そのものを
+     変更するわけではない
+========================================= */
 
 function upgradeChance(type){
 
-  if(kakuhen){
-
-    switch(type){
-
-      case "普通":
-        return .20;
-
-      case "準急":
-        return .28;
-
-      case "快速":
-        return .40;
-
-      case "急行":
-        return .55;
-
-      case "エアポート急行":
-        return .65;
-
-      case "快速急行":
-        return .78;
-
-      case "特急":
-        return .90;
-
+    if(!canUpgrade(type)){
+        return 0;
     }
 
-  }else{
-
-    switch(type){
-
-      case "普通":
-        return .08;
-
-      case "準急":
-        return .12;
-
-      case "快速":
-        return .20;
-
-      case "急行":
-        return .30;
-
-      case "エアポート急行":
-        return .42;
-
-      case "快速急行":
-        return .58;
-
-      case "特急":
-        return .80;
-
+    if(type === "急行"){
+        return kakuhen ? 0.45 : 0.30;
     }
 
-  }
+    if(type === "エアポート急行"){
+        return kakuhen ? 0.60 : 0.45;
+    }
 
-  return 0;
+    if(type === "快速急行"){
+        return kakuhen ? 0.75 : 0.60;
+    }
+
+    return 0;
 }
 
 
-/* =====================================================
+/* =========================================
    昇格先
-===================================================== */
+
+   ★ 中央に止まった列車を基準にする
+========================================= */
 
 function getUpgradeType(type){
 
-  const current=rank[type];
-
-  const possible=
-    Object.keys(rank)
-      .filter(
-        x=>rank[x]>current
-      );
-
-
-  if(possible.length===0){
-    return type;
-  }
-
-
-  let weights=[];
-
-  for(const target of possible){
-
-    const difference=
-      rank[target]-current;
-
-    weights.push(
-      Math.max(
-        1,
-        8-difference*2
-      )
-    );
-
-  }
-
-
-  const total=
-    weights.reduce(
-      (a,b)=>a+b,
-      0
-    );
-
-  let r=Math.random()*total;
-
-
-  for(let i=0;i<possible.length;i++){
-
-    r-=weights[i];
-
-    if(r<=0){
-      return possible[i];
+    if(type === "急行"){
+        return "快速急行";
     }
 
-  }
+    if(type === "エアポート急行"){
+        return "特急";
+    }
 
-  return possible[0];
+    if(type === "快速急行"){
+        return "特急";
+    }
+
+    return type;
 }
 
 
-/* =====================================================
-   指定種別の列車
-===================================================== */
+/* =========================================
+   昇格演出用の列車選択
+
+   ★ これは「当選結果」を変更するためではなく、
+     昇格演出が発生した場合の演出表示用
+========================================= */
 
 function randomTrainOfType(type){
 
-  const list=
-    trains.filter(
-      train=>getType(train)===type
-    );
+    const candidates =
+        trains.filter(t => getType(t) === type);
 
-  if(list.length===0){
-    return null;
-  }
+    if(candidates.length === 0){
+        return null;
+    }
 
-  return list[
-    Math.floor(
-      Math.random()*list.length
-    )
-  ];
+    return candidates[
+        Math.floor(Math.random() * candidates.length)
+    ];
 }
 
 
-/* =====================================================
-   リール
-===================================================== */
+/* =========================================
+   リール作成
+
+   ★ finalTrain が中央に止まる
+========================================= */
 
 function createReelItems(finalTrain){
 
-  const track=
-    document.getElementById(
-      "reelTrack"
-    );
+    const items = [];
 
-  track.innerHTML="";
+    for(let i=0;i<50;i++){
 
+        items.push(
+            trains[
+                Math.floor(Math.random() * trains.length)
+            ]
+        );
 
-  const items=[];
+    }
 
-  for(let i=0;i<50;i++){
+    items.push(finalTrain);
 
-    items.push(
-      trains[
-        Math.floor(
-          Math.random()*trains.length
-        )
-      ]
-    );
-
-  }
-
-
-  /*
-    最後に本命
-  */
-
-  items.push(finalTrain);
-
-
-  items.forEach(train=>{
-
-    const div=
-      document.createElement(
-        "div"
-      );
-
-    div.className="reelItem";
-
-
-    const type=
-      getType(train);
-
-    const rarity=
-      getRarity(type);
-
-
-    div.classList.add(
-      rarity[1]
-    );
-
-    div.textContent=type;
-
-    track.appendChild(div);
-
-  });
+    return items;
 }
 
 
-/* =====================================================
+/* =========================================
    待機
-===================================================== */
+========================================= */
 
 function wait(ms){
 
-  return new Promise(
-    resolve=>setTimeout(
-      resolve,
-      ms
-    )
-  );
-
-}
-
-
-/* =====================================================
-   フラッシュ
-===================================================== */
-
-function flash(times=1){
-
-  const f=
-    document.getElementById(
-      "flash"
+    return new Promise(resolve =>
+        setTimeout(resolve,ms)
     );
-
-
-  for(let i=0;i<times;i++){
-
-    setTimeout(()=>{
-
-      f.classList.remove(
-        "flashAnimation"
-      );
-
-      void f.offsetWidth;
-
-      f.classList.add(
-        "flashAnimation"
-      );
-
-    },i*130);
-
-  }
 }
 
 
-/* =====================================================
+/* =========================================
+   フラッシュ
+========================================= */
+
+async function flash(count=3, speed=100){
+
+    const el =
+        document.getElementById("flash");
+
+    for(let i=0;i<count;i++){
+
+        el.style.opacity="0.95";
+
+        await wait(speed);
+
+        el.style.opacity="0";
+
+        await wait(speed);
+    }
+}
+
+
+/* =========================================
    パーティクル
-===================================================== */
+========================================= */
 
 function particles(count=80){
 
-  for(let i=0;i<count;i++){
+    for(let i=0;i<count;i++){
 
-    const p=
-      document.createElement(
-        "div"
-      );
+        const p =
+            document.createElement("div");
 
-    p.className="particle";
+        p.className="particle";
 
-    p.style.left=
-      Math.random()*100+"vw";
+        p.style.left =
+            Math.random()*100+"vw";
 
-    p.style.top=
-      Math.random()*100+"vh";
+        p.style.top =
+            Math.random()*100+"vh";
 
+        const size =
+            3 + Math.random()*10;
 
-    document.body.appendChild(p);
+        p.style.width=size+"px";
+        p.style.height=size+"px";
 
+        document.body.appendChild(p);
 
-    const x=
-      (Math.random()-.5)*800;
+        const x =
+            (Math.random()-.5)*700;
 
-    const y=
-      (Math.random()-.5)*800;
+        const y =
+            (Math.random()-.5)*700;
 
+        const duration =
+            700 + Math.random()*1300;
 
-    p.animate(
+        p.animate(
+            [
+                {
+                    transform:"translate(0,0) scale(1)",
+                    opacity:1
+                },
+                {
+                    transform:
+                        `translate(${x}px,${y}px) scale(0)`,
+                    opacity:0
+                }
+            ],
+            {
+                duration:duration,
+                easing:"cubic-bezier(.1,.8,.2,1)"
+            }
+        );
 
-      [
-        {
-          transform:
-            "translate(0,0) scale(1)",
-          opacity:1
-        },
-
-        {
-          transform:
-            `translate(${x}px,${y}px) scale(0)`,
-          opacity:0
-        }
-      ],
-
-      {
-        duration:
-          800+Math.random()*1200,
-
-        easing:
-          "cubic-bezier(.1,.8,.2,1)"
-      }
-
-    );
-
-
-    setTimeout(
-      ()=>p.remove(),
-      2200
-    );
-
-  }
+        setTimeout(
+            ()=>p.remove(),
+            duration
+        );
+    }
 }
 
 
-/* =====================================================
+/* =========================================
    オーバーレイ
-===================================================== */
+========================================= */
 
-function showOverlay(
-  text,
-  sub="",
-  className=""
-){
+async function showOverlay(text,sub=""){
 
-  const overlay=
-    document.getElementById(
-      "overlay"
-    );
+    const overlay =
+        document.getElementById("overlay");
 
-  const textElement=
-    document.getElementById(
-      "overlayText"
-    );
+    document.getElementById("overlayText")
+        .textContent=text;
 
-  const subElement=
-    document.getElementById(
-      "overlaySub"
-    );
+    document.getElementById("overlaySub")
+        .textContent=sub;
 
-
-  textElement.className=
-    "overlayText "+className;
-
-  textElement.textContent=text;
-
-  subElement.textContent=sub;
-
-  overlay.classList.add(
-    "show"
-  );
-
+    overlay.style.display="flex";
 }
 
 
 function hideOverlay(){
 
-  document
-    .getElementById(
-      "overlay"
-    )
-    .classList.remove(
-      "show"
+    document.getElementById("overlay")
+        .style.display="none";
+}
+
+
+/* =========================================
+   虹モード
+========================================= */
+
+function rainbowMode(on=true){
+
+    const bg =
+        document.getElementById("rainbowBg");
+
+    bg.style.opacity =
+        on ? ".30" : ".08";
+}
+
+
+/* =========================================
+   昇格演出
+========================================= */
+
+async function upgradeEffect(originalType){
+
+    const upgradedType =
+        getUpgradeType(originalType);
+
+    const upgradedTrain =
+        randomTrainOfType(upgradedType);
+
+    await showOverlay(
+        "🔥 昇格!! 🔥",
+        originalType + " → " + upgradedType
     );
 
+    document.body.classList.add("shake");
+
+    rainbowMode(true);
+
+    await flash(5,90);
+
+    particles(130);
+
+    await wait(1200);
+
+    document.body.classList.remove("shake");
+
+    hideOverlay();
+
+    return upgradedTrain;
 }
 
 
-/* =====================================================
-   虹
-===================================================== */
-
-function rainbowMode(enabled){
-
-  document
-    .getElementById(
-      "rainbowBg"
-    )
-    .style.opacity=
-      enabled?".5":"0";
-
-}
-
-
-/* =====================================================
-   昇格
-===================================================== */
-
-async function upgradeEffect(
-  from,
-  to
-){
-
-  showOverlay(
-    "CHANCE!",
-    "まだ終わらない……"
-  );
-
-  flash(2);
-  particles(50);
-
-  document.body.classList.add(
-    "shake"
-  );
-
-
-  await wait(1000);
-
-
-  document.body.classList.remove(
-    "shake"
-  );
-
-
-  showOverlay(
-    "昇格!!",
-    from+" → "+to,
-    "rainbow"
-  );
-
-  rainbowMode(true);
-
-  flash(7);
-  particles(150);
-
-
-  await wait(1500);
-
-
-  hideOverlay();
-
-  rainbowMode(false);
-}
-
-
-/* =====================================================
-   レア演出
-===================================================== */
+/* =========================================
+   急行以上の激アツ演出
+========================================= */
 
 async function rareEffect(type){
 
-  if(type==="急行"){
+    if(type === "特急"){
 
-    showOverlay(
-      "激アツ!!",
-      "急行出現!!",
-      "rainbow"
-    );
+        await showOverlay(
+            "👑 超激アツ!! 👑",
+            "特急を引き当てた!!"
+        );
 
-    flash(5);
-    particles(100);
+        rainbowMode(true);
 
-    document.body.classList.add(
-      "shake"
-    );
+        document.body.classList.add("shake");
+        document.body.classList.add("pulse");
 
-    await wait(1600);
-  }
+        await flash(8,70);
 
+        particles(180);
 
-  else if(type==="エアポート急行"){
+        await wait(1500);
 
-    showOverlay(
-      "超激アツ!!",
-      "エアポート急行!!",
-      "rainbow"
-    );
+        document.body.classList.remove("shake");
+        document.body.classList.remove("pulse");
 
-    flash(8);
-    particles(160);
+        hideOverlay();
 
-    document.body.classList.add(
-      "shake"
-    );
+        rainbowMode(false);
 
-    await wait(1900);
-  }
+        return;
+    }
 
 
-  else if(type==="快速急行"){
+    if(type === "快速急行"){
 
-    showOverlay(
-      "UR!!",
-      "快速急行!!",
-      "rainbow"
-    );
+        await showOverlay(
+            "🔥 激アツ!! 🔥",
+            "快速急行を引き当てた!!"
+        );
 
-    flash(10);
-    particles(210);
+        document.body.classList.add("shake");
 
-    document.body.classList.add(
-      "shake"
-    );
+        await flash(5,90);
 
-    await wait(2200);
-  }
+        particles(110);
+
+        await wait(1200);
+
+        document.body.classList.remove("shake");
+
+        hideOverlay();
+
+        return;
+    }
 
 
-  else if(type==="特急"){
+    if(type === "エアポート急行"){
 
-    showOverlay(
-      "特急確定!!",
-      "SUPER RARE",
-      "rainbow"
+        await showOverlay(
+            "✈️ 激アツ!! ✈️",
+            "エアポート急行を引き当てた!!"
+        );
+
+        await flash(4,100);
+
+        particles(90);
+
+        await wait(1000);
+
+        hideOverlay();
+
+        return;
+    }
+
+
+    if(type === "急行"){
+
+        await showOverlay(
+            "🔥 激アツ!! 🔥",
+            "急行を引き当てた!!"
+        );
+
+        await flash(3,110);
+
+        particles(70);
+
+        await wait(900);
+
+        hideOverlay();
+
+        return;
+    }
+}
+
+
+/* =========================================
+   確変突入
+========================================= */
+
+async function enterKakuhen(type){
+
+    let chance = 0;
+
+    if(type === "急行"){
+        chance = 0.30;
+    }
+
+    if(type === "エアポート急行"){
+        chance = 0.45;
+    }
+
+    if(type === "快速急行"){
+        chance = 0.65;
+    }
+
+    if(type === "特急"){
+        chance = 0.85;
+    }
+
+    if(Math.random() > chance){
+        return;
+    }
+
+    kakuhen=true;
+
+    await showOverlay(
+        "🔥 確変突入!! 🔥",
+        "ここからが本番だ!!"
     );
 
     rainbowMode(true);
 
-    flash(15);
-    particles(300);
+    document.body.classList.add("shake");
 
-    document.body.classList.add(
-      "shake"
-    );
+    await flash(10,70);
 
-    await wait(2600);
-  }
+    particles(200);
 
+    await wait(1700);
 
-  document.body.classList.remove(
-    "shake"
-  );
+    document.body.classList.remove("shake");
 
-  rainbowMode(false);
+    hideOverlay();
 
-  hideOverlay();
+    document.getElementById("mode")
+        .textContent="🔥 確変中 🔥";
+
+    document.getElementById("mode")
+        .className="kakuhen";
 }
 
 
-/* =====================================================
-   確変
-===================================================== */
+/* =========================================
+   確変終了判定
+========================================= */
 
-async function enterKakuhen(){
+async function checkKakuhenEnd(){
 
-  showOverlay(
-    "確変突入!!",
-    "HIGH SPEED MODE",
-    "rainbow"
-  );
+    if(!kakuhen){
+        return;
+    }
 
-  rainbowMode(true);
+    // 22%で終了
+    if(Math.random() < 0.22){
 
-  document.body.classList.add(
-    "shake"
-  );
+        await showOverlay(
+            "確変終了",
+            "通常モードへ戻ります"
+        );
 
-  flash(12);
-  particles(280);
+        await wait(1200);
 
+        hideOverlay();
 
-  await wait(2600);
+        kakuhen=false;
 
+        rainbowMode(false);
 
-  document.body.classList.remove(
-    "shake"
-  );
+        const mode =
+            document.getElementById("mode");
 
-
-  kakuhen=true;
-
-
-  const mode=
-    document.getElementById(
-      "mode"
-    );
-
-  mode.textContent=
-    "🔥 確変中 🔥";
-
-  mode.classList.add(
-    "kakuhen"
-  );
-
-
-  hideOverlay();
+        mode.textContent="通常モード";
+        mode.className="";
+    }
 }
 
 
-/* =====================================================
-   両数
-===================================================== */
-
-/*
-  対象列車だけ
-  2両 / 3両以上を
-  完全ランダムで決定
-*/
+/* =========================================
+   編成が必要か
+========================================= */
 
 function needsCarChoice(train){
 
-  /*
-    井口発 → 対象外
-  */
+    // 井口発は編成表示なし
+    if(train.includes("井口発")){
+        return false;
+    }
 
-  if(train.startsWith("井口発")){
-    return false;
-  }
+    // 千鳥→本郷/井口の特殊系
+    if(
+        train.includes("千鳥発普通本郷行き(井問)") ||
+        train.includes("千鳥発普通本郷行き(千鳥支)") ||
+        train.includes("千鳥発普通井口行き(井問)") ||
+        train.includes("千鳥発普通井口行き(千鳥支)")
+    ){
+        return false;
+    }
 
+    // 飛水系
+    if(
+        train.includes("尾羽原発普通飛水竜田行き") ||
+        train.includes("尾羽原発普通飛水柏原行き")
+    ){
+        return false;
+    }
 
-  /*
-    千鳥発
-    本郷・井口
-    井問・千鳥支 → 対象外
-  */
-
-  if(
-    train.includes(
-      "千鳥発普通本郷行き(井問)"
-    ) ||
-
-    train.includes(
-      "千鳥発普通本郷行き(千鳥支)"
-    ) ||
-
-    train.includes(
-      "千鳥発普通井口行き(井問)"
-    ) ||
-
-    train.includes(
-      "千鳥発普通井口行き(千鳥支)"
-    )
-  ){
-    return false;
-  }
-
-
-  /*
-    飛水竜田・飛水柏原
-    → 対象外
-  */
-
-  if(
-    train==="尾羽原発普通飛水竜田行き" ||
-
-    train==="尾羽原発普通飛水柏原行き"
-  ){
-    return false;
-  }
-
-
-  return true;
+    return true;
 }
 
 
-/*
-  両数をランダム決定
-*/
+/* =========================================
+   2両 / 3両以上
+========================================= */
 
 function randomCars(){
 
-  return Math.random()<.5
-    ? "2両"
-    : "3両以上";
-
+    return Math.random() < 0.5
+        ? "2両"
+        : "3両以上";
 }
 
 
-/* =====================================================
-   両数演出
-===================================================== */
+/* =========================================
+   編成決定演出
+========================================= */
 
-async function carEffect(
-  train
-){
+async function carEffect(train){
 
-  const cars=
-    randomCars();
+    if(!needsCarChoice(train)){
+        return train;
+    }
 
+    const cars =
+        randomCars();
 
-  showOverlay(
-    "編成決定!!",
-    "……"+cars+"……",
-    cars==="3両以上"
-      ?"rainbow"
-      :""
-  );
+    await showOverlay(
+        "🚃 編成決定!!",
+        "……" + cars + "……"
+    );
 
+    if(cars === "3両以上"){
 
-  if(cars==="3両以上"){
+        rainbowMode(true);
 
-    rainbowMode(true);
+        document.body.classList.add("shake");
 
-    flash(7);
+        await flash(7,70);
 
-    particles(150);
+        particles(150);
 
-  }else{
+        await wait(1400);
 
-    flash(3);
+        document.body.classList.remove("shake");
 
-    particles(50);
+        rainbowMode(false);
 
-  }
+    }else{
 
+        await flash(3,110);
 
-  await wait(1500);
+        particles(50);
 
+        await wait(1100);
+    }
 
-  hideOverlay();
+    hideOverlay();
 
-  rainbowMode(false);
-
-
-  document.getElementById(
-    "result"
-  ).textContent=
-    train+"【"+cars+"】";
-
-
-  return cars;
+    return train + "【" + cars + "】";
 }
 
 
-/* =====================================================
+/* =========================================
+   結果表示
+========================================= */
+
+function showResult(train){
+
+    const result =
+        document.getElementById("result");
+
+    const rarity =
+        document.getElementById("rarity");
+
+    const type =
+        getType(train);
+
+    const [rarityText,rarityClass] =
+        getRarity(type);
+
+    result.textContent=train;
+
+    rarity.textContent =
+        rarityText + " / " + type;
+
+    rarity.className=rarityClass;
+}
+
+
+/* =========================================
    メイン
-===================================================== */
+========================================= */
 
 async function spin(){
 
-  if(spinning){
-    return;
-  }
-
-
-  spinning=true;
-
-
-  const button=
-    document.getElementById(
-      "spinButton"
-    );
-
-  button.disabled=true;
-
-
-  const result=
-    document.getElementById(
-      "result"
-    );
-
-  const rarity=
-    document.getElementById(
-      "rarity"
-    );
-
-  const slot=
-    document.getElementById(
-      "slot"
-    );
-
-
-  result.textContent=
-    "回転中……";
-
-  rarity.textContent="";
-
-
-  /*
-    通常抽選
-  */
-
-  let finalTrain=
-    chooseTrain();
-
-  let originalType=
-    getType(finalTrain);
-
-  let finalType=
-    originalType;
-
-
-  /*
-    昇格抽選
-  */
-
-  if(
-    Math.random()<
-    upgradeChance(
-      originalType
-    )
-  ){
-
-    const upgrade=
-      getUpgradeType(
-        originalType
-      );
-
-
-    if(
-      upgrade!==originalType
-    ){
-
-      finalType=upgrade;
-
-
-      const upgradedTrain=
-        randomTrainOfType(
-          finalType
-        );
-
-
-      if(upgradedTrain){
-        finalTrain=
-          upgradedTrain;
-      }
-
+    if(spinning){
+        return;
     }
 
-  }
+    spinning=true;
 
+    const button =
+        document.getElementById("spinButton");
 
-  /*
-    リール
-  */
+    button.disabled=true;
 
-  createReelItems(
-    finalTrain
-  );
+    document.getElementById("result")
+        .textContent="";
 
+    document.getElementById("rarity")
+        .textContent="";
 
-  const track=
-    document.getElementById(
-      "reelTrack"
-    );
-
-
-  const itemHeight=95;
-
-
-  /*
-    ★ここが中央停止の重要部分★
-
-    スロット高さ300px
-
-    中央 = 150px
-
-    1項目 = 95px
-
-    項目の中央 = 47.5px
-
-    よって
-    150 - 47.5 = 102.5px
-
-    本命項目が中央に来るように
-    位置を計算する
-  */
-
-  const slotHeight=
-    document
-      .querySelector(".slot")
-      .clientHeight;
-
-  const targetCenter=
-    slotHeight/2;
-
-  const itemCenter=
-    itemHeight/2;
-
-
-  /*
-    本命は50番目
-  */
-
-  const targetIndex=50;
-
-
-  const distance=
-    targetIndex*itemHeight
-    -
-    (targetCenter-itemCenter);
-
-
-  /*
-    初期位置
-  */
-
-  track.style.transition="none";
-
-  track.style.transform=
-    "translateY(0)";
-
-
-  await wait(100);
-
-
-  /*
-    なめらか回転
-
-    ゆっくり
-       ↓
-    加速
-       ↓
-    高速
-       ↓
-    なめらか減速
-       ↓
-    ★中央停止★
-  */
-
-  track.offsetHeight;
-
-
-  track.style.transition=
-    "transform 7.5s cubic-bezier(.08,.72,.10,1)";
-
-
-  track.style.transform=
-    `translateY(-${distance}px)`;
-
-
-  /*
-    回転中
-  */
-
-  setTimeout(
-    ()=>flash(1),
-    2300
-  );
-
-
-  setTimeout(
-    ()=>slot.classList.add("pulse"),
-    4500
-  );
-
-
-  setTimeout(
-    ()=>slot.classList.remove("pulse"),
-    6800
-  );
-
-
-  await wait(7600);
-
-
-  slot.classList.remove(
-    "pulse"
-  );
-
-
-  /*
-    最終結果
-  */
-
-  const type=
-    getType(finalTrain);
-
-  const rarityData=
-    getRarity(type);
-
-
-  result.textContent=
-    finalTrain;
-
-  rarity.textContent=
-    rarityData[0]
-    +"　"
-    +type;
-
-
-  /*
-    昇格
-  */
-
-  if(
-    finalType!==originalType
-  ){
-
-    await upgradeEffect(
-      originalType,
-      finalType
-    );
-
-  }
-
-
-  /*
-    急行以上
-  */
-
-  if(rank[type]>=4){
-
-    await rareEffect(type);
-
-  }
-
-
-  /*
-    確変判定
-  */
-
-  if(
-    !kakuhen &&
-    rank[type]>=4
-  ){
-
-    let chance=0;
-
-
-    switch(type){
-
-      case "急行":
-        chance=.30;
-        break;
-
-      case "エアポート急行":
-        chance=.45;
-        break;
-
-      case "快速急行":
-        chance=.65;
-        break;
-
-      case "特急":
-        chance=.85;
-        break;
-
-    }
-
-
-    if(
-      Math.random()<chance
-    ){
-
-      await enterKakuhen();
-
-    }
-
-  }
-
-
-  /*
-    確変中の継続判定
-  */
-
-  else if(kakuhen){
 
     /*
-      78%継続
-      22%終了
+       ★★★★★★★★★★★★★★★★★★★★★★
+       ここが今回の超重要ポイント
+       
+       まず「中央に止める列車」を
+       全列車から完全ランダムで決める。
+
+       この時点で当選結果は確定。
+       ★★★★★★★★★★★★★★★★★★★★★★
+    */
+
+    const finalTrain =
+        chooseTrain();
+
+    const originalType =
+        getType(finalTrain);
+
+
+    /* リール作成 */
+
+    const track =
+        document.getElementById("reelTrack");
+
+    track.innerHTML="";
+
+
+    const items =
+        createReelItems(finalTrain);
+
+
+    items.forEach((train,index)=>{
+
+        const item =
+            document.createElement("div");
+
+        item.className="reelItem";
+
+        item.textContent=train;
+
+        item.dataset.index=index;
+
+        track.appendChild(item);
+    });
+
+
+    /*
+       初期位置
+    */
+
+    track.style.transition="none";
+
+    track.style.transform=
+        "translateY(0px)";
+
+
+    await wait(100);
+
+
+    /*
+       中央に最後の列車を止める
+    */
+
+    const targetIndex =
+        items.length - 1;
+
+    const item =
+        track.children[targetIndex];
+
+    const slot =
+        document.querySelector(".slot");
+
+    const itemHeight =
+        item.offsetHeight;
+
+    const slotHeight =
+        slot.clientHeight;
+
+    const targetCenter =
+        slotHeight / 2;
+
+    const itemCenter =
+        itemHeight / 2;
+
+    const distance =
+        targetIndex * itemHeight
+        - (targetCenter - itemCenter);
+
+
+    /*
+       ★ スムーズなスロット移動
+    */
+
+    track.style.transition =
+        "transform 7.5s cubic-bezier(.08,.72,.10,1)";
+
+    track.style.transform =
+        `translateY(-${distance}px)`;
+
+
+    await wait(7600);
+
+
+    /*
+       ★★★★★★★★★★★★★★★★★★★★★★
+       ここで中央に止まった finalTrain が
+       「本当の当選結果」
+       ★★★★★★★★★★★★★★★★★★★★★★
+    */
+
+    showResult(finalTrain);
+
+
+    /*
+       中央結果の種別
+    */
+
+    const centerType =
+        getType(finalTrain);
+
+
+    /*
+       =====================================
+       昇格判定
+       
+       ★ 特急には昇格演出をしない
+       ★ 普通・準急・快速にも昇格演出をしない
+       ★ 急行系だけ
+       =====================================
+    */
+
+    if(canUpgrade(centerType)){
+
+        const chance =
+            upgradeChance(centerType);
+
+        if(Math.random() < chance){
+
+            /*
+               昇格演出だけを行う。
+
+               元のリール結果そのものは
+               finalTrain のまま。
+            */
+
+            const upgradedTrain =
+                await upgradeEffect(centerType);
+
+            /*
+               昇格演出が発生した場合だけ、
+               最終表示を昇格先に変更する。
+
+               つまり、
+
+               急行
+                  ↓
+               快速急行
+
+               快速急行
+                  ↓
+               特急
+
+               のような「当選後の昇格」。
+               
+               特急が最初から中央なら
+               この処理には絶対入らない。
+            */
+
+            if(upgradedTrain){
+
+                showResult(upgradedTrain);
+            }
+        }
+    }
+
+
+    /*
+       現在表示されている最終タイプ
+    */
+
+    let displayedTrain =
+        document.getElementById("result")
+            .textContent;
+
+    let displayedType =
+        getType(displayedTrain);
+
+
+    /*
+       レア演出
+    */
+
+    if(rank(displayedType) >= 4){
+
+        await rareEffect(displayedType);
+    }
+
+
+    /*
+       確変突入
     */
 
     if(
-      Math.random()<.22
+        !kakuhen &&
+        rank(displayedType) >= 4
     ){
 
-      showOverlay(
-        "確変終了",
-        "通常時へ……"
-      );
-
-
-      await wait(1500);
-
-
-      kakuhen=false;
-
-
-      const mode=
-        document.getElementById(
-          "mode"
-        );
-
-
-      mode.textContent=
-        "通常時";
-
-
-      mode.classList.remove(
-        "kakuhen"
-      );
-
-
-      hideOverlay();
-
+        await enterKakuhen(displayedType);
     }
 
-  }
+
+    /*
+       確変終了判定
+    */
+
+    await checkKakuhenEnd();
 
 
-  /*
-    両数
-  */
+    /*
+       編成決定
+       
+       ★ 表示中の列車に対して決定
+    */
 
-  if(
-    needsCarChoice(
-      finalTrain
-    )
-  ){
-
-    await carEffect(
-      finalTrain
-    );
-
-  }
+    const carResult =
+        await carEffect(displayedTrain);
 
 
-  /*
-    両数対象外はそのまま
-  */
+    if(carResult !== displayedTrain){
 
-  finishSpin();
+        showResult(carResult);
+    }
 
+
+    /*
+       終了
+    */
+
+    spinning=false;
+
+    button.disabled=false;
 }
 
 
-/* =====================================================
-   終了
-===================================================== */
+/* =========================================
+   ボタン
+========================================= */
 
-function finishSpin(){
-
-  const button=
-    document.getElementById(
-      "spinButton"
-    );
-
-  button.disabled=false;
-
-  spinning=false;
-
-}
+document
+    .getElementById("spinButton")
+    .addEventListener("click",spin);
 
 
-/* =====================================================
-   初期
-===================================================== */
+/* =========================================
+   初期表示
+========================================= */
 
-document.getElementById(
-  "result"
-).textContent=
-  "START";
+document.getElementById("mode")
+    .textContent="通常モード";
 
 </script>
 
