@@ -1,745 +1,386 @@
-<!DOCTYPE html>
+<!DOCTYPE html>qx
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ロブとれの森</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>尾羽急ルーレット</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body{
-    font-family:-apple-system,BlinkMacSystemFont,
-    "SF Pro Display","Helvetica Neue",Arial,sans-serif;
+body {
+    margin: 0;
+    min-height: 100vh;
     background:
-        radial-gradient(circle at 20% 10%,#dcecff 0%,transparent 35%),
-        radial-gradient(circle at 80% 20%,#f3e8ff 0%,transparent 35%),
-        linear-gradient(135deg,#eef4ff,#f8f8fc);
-    min-height:100vh;
-    color:#111;
-    padding-bottom:90px;
+        radial-gradient(circle at center, #202020 0%, #050505 70%);
+    color: white;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
 }
 
-button,
-input,
-textarea{
-    font:inherit;
+.container {
+    width: min(900px, 94%);
+    text-align: center;
 }
 
-button{
-    border:0;
-    cursor:pointer;
+/* タイトル */
+
+.logo {
+    font-size: clamp(32px, 7vw, 64px);
+    font-weight: 900;
+    letter-spacing: 0.08em;
+
+    margin-bottom: 25px;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.5),
+        0 0 30px rgba(0,150,255,.5);
 }
 
-.glass{
-    background:rgba(255,255,255,.62);
-    backdrop-filter:blur(25px);
-    -webkit-backdrop-filter:blur(25px);
-    border:1px solid rgba(255,255,255,.75);
+.subtitle {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+/* ルーレット表示 */
+
+.roulette-box {
+    position: relative;
+
+    width: 100%;
+    min-height: 250px;
+
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #111,
+            #222
+        );
+
+    border: 2px solid #444;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+
     box-shadow:
-        0 10px 35px rgba(0,0,0,.08),
-        inset 0 1px 0 rgba(255,255,255,.8);
+        0 0 40px rgba(0,0,0,.8),
+        inset 0 0 40px rgba(255,255,255,.03);
+
+    overflow: hidden;
 }
 
-/* HEADER */
+.roulette-box::before {
+    content: "";
 
-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    padding:14px 18px;
-}
+    position: absolute;
 
-.header-inner{
-    max-width:900px;
-    margin:auto;
-    border-radius:24px;
-    padding:12px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
+    width: 500px;
+    height: 500px;
 
-.logo{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    font-weight:800;
-    font-size:20px;
-}
-
-.logo span{
-    font-size:24px;
-}
-
-.header-user{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.user-name{
-    font-size:14px;
-    font-weight:700;
-}
-
-.small-btn{
-    padding:8px 13px;
-    border-radius:14px;
-    background:rgba(0,0,0,.06);
-}
-
-/* MAIN */
-
-main{
-    width:min(900px,calc(100% - 24px));
-    margin:18px auto;
-}
-
-.page{
-    display:none;
-}
-
-.page.active{
-    display:block;
-}
-
-/* HERO */
-
-.hero{
-    border-radius:30px;
-    padding:30px 24px;
-    margin-bottom:18px;
-}
-
-.hero h1{
-    font-size:38px;
-    letter-spacing:-1.5px;
-    margin-bottom:8px;
-}
-
-.hero p{
-    color:#666;
-    line-height:1.6;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:20px;
-    flex-wrap:wrap;
-}
-
-.primary{
-    background:#111;
-    color:white;
-    padding:12px 18px;
-    border-radius:16px;
-    font-weight:700;
-}
-
-.secondary{
-    background:rgba(255,255,255,.75);
-    padding:12px 18px;
-    border-radius:16px;
-    font-weight:700;
-}
-
-/* CARDS */
-
-.card{
-    border-radius:24px;
-    padding:20px;
-    margin-bottom:14px;
-}
-
-.card-title{
-    font-size:18px;
-    font-weight:800;
-    margin-bottom:10px;
-}
-
-.update{
     background:
-        linear-gradient(135deg,
-        rgba(255,255,255,.75),
-        rgba(220,235,255,.6));
+        radial-gradient(
+            circle,
+            rgba(0,150,255,.15),
+            transparent 65%
+        );
+
+    animation: rotateGlow 8s linear infinite;
 }
 
-.update-tag{
-    display:inline-block;
-    background:#111;
-    color:#fff;
-    padding:5px 9px;
-    border-radius:9px;
-    font-size:11px;
-    margin-bottom:10px;
-}
-
-/* POSTS */
-
-.post{
-    border-radius:23px;
-    padding:18px;
-    margin-bottom:13px;
-}
-
-.post-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:10px;
-}
-
-.post-user{
-    font-weight:800;
-}
-
-.post-date{
-    color:#888;
-    font-size:12px;
-}
-
-.post-content{
-    line-height:1.65;
-    white-space:pre-wrap;
-    word-break:break-word;
-}
-
-.post-actions{
-    display:flex;
-    gap:8px;
-    margin-top:14px;
-}
-
-.action-btn{
-    background:rgba(0,0,0,.05);
-    padding:8px 13px;
-    border-radius:13px;
-}
-
-.action-btn.liked{
-    background:#111;
-    color:#fff;
-}
-
-/* NAV */
-
-.bottom-nav{
-    position:fixed;
-    bottom:14px;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(500px,calc(100% - 28px));
-    z-index:200;
-    border-radius:25px;
-    padding:8px;
-    display:flex;
-    justify-content:space-around;
-}
-
-.nav-btn{
-    background:transparent;
-    padding:10px 14px;
-    border-radius:17px;
-    color:#666;
-    font-weight:700;
-}
-
-.nav-btn.active{
-    background:#111;
-    color:#fff;
-}
-
-/* MODAL */
-
-.modal-bg{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.35);
-    backdrop-filter:blur(8px);
-    -webkit-backdrop-filter:blur(8px);
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:500;
-    padding:20px;
-}
-
-.modal-bg.show{
-    display:flex;
-}
-
-.modal{
-    width:min(430px,100%);
-    border-radius:28px;
-    padding:24px;
-}
-
-.modal h2{
-    margin-bottom:18px;
-}
-
-.input{
-    width:100%;
-    padding:13px 15px;
-    border-radius:15px;
-    border:1px solid rgba(0,0,0,.08);
-    background:rgba(255,255,255,.8);
-    outline:none;
-    margin-bottom:10px;
-}
-
-textarea.input{
-    min-height:130px;
-    resize:vertical;
-}
-
-.modal-buttons{
-    display:flex;
-    gap:8px;
-    margin-top:8px;
-}
-
-.modal-buttons button{
-    flex:1;
-}
-
-.close-btn{
-    background:rgba(0,0,0,.06);
-    padding:12px;
-    border-radius:15px;
-}
-
-.switch{
-    text-align:center;
-    margin-top:15px;
-    color:#555;
-    font-size:14px;
-}
-
-.switch button{
-    background:none;
-    color:#007aff;
-    font-weight:700;
-}
-
-/* PROFILE */
-
-.profile{
-    text-align:center;
-    padding:28px;
-}
-
-.avatar{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    background:#111;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
-    margin:0 auto 15px;
-}
-
-.profile-name{
-    font-size:24px;
-    font-weight:800;
-}
-
-.profile-info{
-    color:#777;
-    margin-top:5px;
-}
-
-/* EMPTY */
-
-.empty{
-    text-align:center;
-    padding:35px;
-    color:#777;
-}
-
-/* LOADING */
-
-.loading{
-    text-align:center;
-    padding:30px;
-    color:#777;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-    .hero h1{
-        font-size:31px;
+@keyframes rotateGlow {
+    from {
+        transform: rotate(0deg);
     }
 
-    .header-inner{
-        border-radius:20px;
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.result {
+    position: relative;
+    z-index: 2;
+
+    font-size: clamp(22px, 5vw, 42px);
+
+    font-weight: 900;
+
+    line-height: 1.5;
+
+    min-height: 130px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.result .train {
+    font-size: clamp(18px, 4vw, 30px);
+    color: #aaa;
+}
+
+.result .route {
+    font-size: clamp(25px, 6vw, 48px);
+}
+
+/* ボタン */
+
+button {
+    margin-top: 30px;
+
+    border: none;
+
+    padding:
+        18px
+        55px;
+
+    border-radius: 999px;
+
+    font-size: 24px;
+    font-weight: 900;
+
+    color: white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0077ff,
+            #00b7ff
+        );
+
+    box-shadow:
+        0 8px 30px rgba(0,140,255,.35);
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        box-shadow .15s;
+}
+
+button:active {
+    transform: scale(.94);
+}
+
+button:disabled {
+    opacity: .5;
+}
+
+/* レア表示 */
+
+.rarity {
+    margin-top: 20px;
+
+    font-size: 24px;
+
+    font-weight: 900;
+
+    min-height: 35px;
+}
+
+.normal {
+    color: #ddd;
+}
+
+.rare {
+    color: #5fa8ff;
+}
+
+.ssr {
+    color: #c879ff;
+    text-shadow: 0 0 15px #9b35ff;
+}
+
+.ur {
+    color: #ffae3b;
+    text-shadow:
+        0 0 10px #ff8c00,
+        0 0 30px #ff4500;
+}
+
+.lr {
+    color: #ff5555;
+    text-shadow:
+        0 0 10px red,
+        0 0 30px red,
+        0 0 60px orange;
+}
+
+/* 共通演出 */
+
+.flash {
+    animation: flash .25s infinite alternate;
+}
+
+@keyframes flash {
+    from {
+        filter: brightness(1);
     }
 
-    .user-name{
-        display:none;
+    to {
+        filter: brightness(2.5);
+    }
+}
+
+.shake {
+    animation: shake .08s infinite;
+}
+
+@keyframes shake {
+    0%   { transform: translate(2px, 1px); }
+    25%  { transform: translate(-2px, -1px); }
+    50%  { transform: translate(1px, -2px); }
+    75%  { transform: translate(-1px, 2px); }
+    100% { transform: translate(2px, 1px); }
+}
+
+/* プレミア */
+
+.premium {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,.35),
+            rgba(255,0,0,.15),
+            rgba(0,0,0,.95)
+        );
+
+    pointer-events: none;
+}
+
+.premium.show {
+    display: flex;
+    animation: premiumIn .7s ease;
+}
+
+.premium-text {
+    font-size: clamp(45px, 13vw, 130px);
+
+    font-weight: 1000;
+
+    text-align: center;
+
+    color: white;
+
+    text-shadow:
+        0 0 10px red,
+        0 0 30px red,
+        0 0 70px orange;
+
+    animation:
+        premiumText .6s ease infinite alternate;
+}
+
+@keyframes premiumIn {
+    from {
+        opacity: 0;
     }
 
-    .card,
-    .post{
-        border-radius:20px;
+    to {
+        opacity: 1;
     }
+}
+
+@keyframes premiumText {
+    from {
+        transform: scale(.85);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+/* 注意書き */
+
+.info {
+    margin-top: 25px;
+
+    color: #777;
+
+    font-size: 13px;
 }
 </style>
 </head>
 
+
 <body>
 
-<header>
-    <div class="header-inner glass">
+<div class="container">
 
-        <div class="logo">
-            <span>🚃</span>
-            <div>
-                ROB鉄
-                <div style="
-                    font-size:10px;
-                    font-weight:500;
-                    color:#777;">
-                    Roblox鉄道SNS
-                </div>
-            </div>
-        </div>
+    <div class="logo">
+        尾羽急ルーレット
+    </div>
 
-        <div class="header-user">
-            <div id="headerUser" class="user-name">
-                未ログイン
+    <div class="subtitle">
+        今日の列車運行を決めろ！
+    </div>
+
+
+    <div class="roulette-box" id="rouletteBox">
+
+        <div class="result" id="result">
+
+            <div class="train">
+                🎰 準備完了
             </div>
 
-            <button
-                id="headerButton"
-                class="small-btn"
-                onclick="openLogin()">
-                ログイン
-            </button>
-        </div>
-
-    </div>
-</header>
-
-
-<main>
-
-<!-- HOME -->
-
-<section id="homePage" class="page active">
-
-    <div class="hero glass">
-
-        <h1>ロブ鉄SNS</h1>
-
-        <p>
-            Robloxの鉄道をもっと楽しもう。<br>
-            最新情報を見たり、鉄道について投稿したりできます。
-        </p>
-
-        <div class="hero-buttons">
-
-            <button
-                class="primary"
-                onclick="openPostModal()">
-                ＋ 投稿する
-            </button>
-
-            <button
-                class="secondary"
-                onclick="showPage('updates')">
-                尾羽急 最新情報
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="card glass update">
-
-        <div class="update-tag">
-            NEWS
-        </div>
-
-        <div class="card-title">
-            尾羽急 最新情報
-        </div>
-
-        <p>
-            尾羽急電鉄に関する最新情報をチェック！
-        </p>
-
-        <button
-            class="secondary"
-            style="margin-top:13px"
-            onclick="showPage('updates')">
-            詳しく見る
-        </button>
-
-    </div>
-
-
-    <div class="card glass">
-
-        <div class="card-title">
-            最新の投稿
-        </div>
-
-        <div id="homePosts">
-            <div class="loading">
-                読み込み中…
+            <div class="route">
+                ルーレットを回そう！
             </div>
+
         </div>
 
     </div>
 
-</section>
+
+    <div class="rarity" id="rarity"></div>
 
 
-<!-- UPDATES -->
-
-<section id="updatesPage" class="page">
-
-    <div class="card glass">
-
-        <div class="card-title">
-            🚃 尾羽急 最新情報
-        </div>
-
-        <p style="line-height:1.8">
-            ここに尾羽急電鉄の最新情報を掲載できます。
-            <br><br>
-            新型車両、ダイヤ改正、駅の追加、
-            路線情報などを投稿できます。
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- POSTS -->
-
-<section id="postsPage" class="page">
-
-    <div class="card glass">
-
-        <div class="card-title">
-            📝 みんなの投稿
-        </div>
-
-        <button
-            class="primary"
-            onclick="openPostModal()">
-            ＋ 新しく投稿
-        </button>
-
-    </div>
-
-    <div id="allPosts">
-        <div class="loading">
-            読み込み中…
-        </div>
-    </div>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section id="profilePage" class="page">
-
-    <div id="profileArea">
-        <div class="card glass empty">
-            ログインするとプロフィールを表示できます。
-        </div>
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- NAV -->
-
-<nav class="bottom-nav glass">
-
-    <button
-        class="nav-btn active"
-        onclick="showPage('home')">
-        🏠 ホーム
+    <button id="spinButton">
+        🎰 回す！
     </button>
 
-    <button
-        class="nav-btn"
-        onclick="showPage('posts')">
-        📝 投稿
-    </button>
 
-    <button
-        class="nav-btn"
-        onclick="showPage('updates')">
-        🚃 情報
-    </button>
-
-    <button
-        class="nav-btn"
-        onclick="showPage('profile')">
-        👤 プロフィール
-    </button>
-
-</nav>
-
-
-<!-- LOGIN -->
-
-<div id="loginModal" class="modal-bg">
-
-    <div class="modal glass">
-
-        <h2>ログイン</h2>
-
-        <input
-            id="loginEmail"
-            class="input"
-            type="email"
-            placeholder="メールアドレス">
-
-        <input
-            id="loginPassword"
-            class="input"
-            type="password"
-            placeholder="パスワード">
-
-        <div class="modal-buttons">
-
-            <button
-                class="primary"
-                onclick="login()">
-                ログイン
-            </button>
-
-            <button
-                class="close-btn"
-                onclick="closeModal('loginModal')">
-                閉じる
-            </button>
-
-        </div>
-
-        <div class="switch">
-            アカウントを持っていない？
-            <button onclick="switchToRegister()">
-                新規登録
-            </button>
-        </div>
-
+    <div class="info">
+        ※ゲーム用のルーレットです
     </div>
 
 </div>
 
 
-<!-- REGISTER -->
+<div class="premium" id="premium">
 
-<div id="registerModal" class="modal-bg">
-
-    <div class="modal glass">
-
-        <h2>アカウント作成</h2>
-
-        <input
-            id="registerUsername"
-            class="input"
-            type="text"
-            maxlength="20"
-            placeholder="ユーザー名">
-
-        <input
-            id="registerEmail"
-            class="input"
-            type="email"
-            placeholder="メールアドレス">
-
-        <input
-            id="registerPassword"
-            class="input"
-            type="password"
-            placeholder="パスワード">
-
-        <div class="modal-buttons">
-
-            <button
-                class="primary"
-                onclick="register()">
-                登録
-            </button>
-
-            <button
-                class="close-btn"
-                onclick="closeModal('registerModal')">
-                閉じる
-            </button>
-
-        </div>
-
-        <div class="switch">
-            すでにアカウントがある？
-            <button onclick="switchToLogin()">
-                ログイン
-            </button>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- POST -->
-
-<div id="postModal" class="modal-bg">
-
-    <div class="modal glass">
-
-        <h2>新しい投稿</h2>
-
-        <textarea
-            id="postContent"
-            class="input"
-            maxlength="1000"
-            placeholder="鉄道について投稿しよう！"></textarea>
-
-        <div class="modal-buttons">
-
-            <button
-                class="primary"
-                onclick="createPost()">
-                投稿する
-            </button>
-
-            <button
-                class="close-btn"
-                onclick="closeModal('postModal')">
-                閉じる
-            </button>
-
-        </div>
-
+    <div class="premium-text" id="premiumText">
+        PREMIUM
     </div>
 
 </div>
@@ -747,935 +388,425 @@ textarea.input{
 
 <script>
 
-/* =========================
-   SUPABASE
-========================= */
+/* =========================================
+   尾羽急ルーレット データ
+========================================= */
 
-const SUPABASE_URL =
-"https://ffuochpjwdxlrtzykewk.supabase.co";
+const trains = [
 
-const SUPABASE_ANON_KEY =
-"sb_publishable_-nKEIwdoeKC_-GD0UxbGXw_NbB0fGD5";
+"尾羽原発普通安越行き",
+"尾羽原発普通雲谷行き",
+"尾羽原発普通高徳行き",
+"尾羽原発普通紀田行き",
+"尾羽原発普通千鳥行き",
+"尾羽原発普通金田行き",
+"尾羽原発普通金田新都心行き",
+"尾羽原発普通百鳥行き",
+"尾羽原発普通北尾羽行き",
+"尾羽原発普通奥千鳥行き",
+"尾羽原発普通飛岡行き",
+"尾羽原発普通飛水竜田行き",
+"尾羽原発普通飛水柏原行き",
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
+"尾羽原発快速高徳行き",
+"尾羽原発快速紀田行き",
+"尾羽原発快速千鳥行き",
+"尾羽原発快速奥千鳥行き",
+
+"尾羽原発急行紀田行き",
+"尾羽原発急行千鳥行き",
+"尾羽原発急行金田行き",
+"尾羽原発急行金田新都心行き",
+
+"尾羽原発準急高徳行き",
+"尾羽原発準急紀田行き",
+"尾羽原発準急金田行き",
+
+"尾羽原発快速急行千鳥行き",
+"尾羽原発快速急行金田行き",
+"尾羽原発快速急行北尾羽行き",
+"尾羽原発快速急行金田新都心行き",
+
+"尾羽原発エアポート急行高徳空港行き",
+
+"尾羽原発特急やまかぜ北尾羽行き",
+
+"尾羽原発air特急金田新都心行き",
+
+"尾羽原発特急つばき金田新都心行き",
+
+"尾羽原発特急スーパーつばき金田新都心行き(全停車型)",
+
+"尾羽原発特急スーパーつばき金田新都心行き(速達)",
+
+"尾羽原発特急ほしみ金田新都心行き",
 
 
-/* =========================
-   初期化
-========================= */
+"井口発普通列車本郷行き",
 
-let currentUser = null;
+"井口発普通列車千鳥行き(井問)",
+
+"井口発普通列車千鳥行き(千鳥支)",
 
 
-async function init(){
+"北尾羽発普通百鳥行き",
+"北尾羽発普通金田行き",
+"北尾羽発普通金田新都心行き",
 
-    const {
-        data,
-        error
-    } = await supabaseClient.auth.getUser();
+"北尾羽発特急はね金田新都心行き",
 
-    if(!error && data.user){
-        currentUser = data.user;
-    }
 
-    updateHeader();
-    updateProfile();
-    loadPosts();
+"千鳥発普通金田行き",
+"千鳥発普通金田新都心行き",
+"千鳥発普通北尾羽行き",
+"千鳥発普通高徳行き",
+"千鳥発普通尾羽原行き",
+
+"千鳥発準急金田行き",
+"千鳥発準急北尾羽行き",
+"千鳥発準急高徳行き",
+"千鳥発準急尾羽原行き",
+
+"千鳥発急行高徳行き",
+"千鳥発急行尾羽原行き",
+"千鳥発急行金田行き",
+"千鳥発急行金田新都心行き",
+"千鳥発急行百鳥行き",
+"千鳥発急行北尾羽行き",
+
+"千鳥発快速急行金田行き",
+"千鳥発快速急行金田新都心行き",
+"千鳥発快速急行北尾羽行き",
+"千鳥発快速急行高徳行き",
+"千鳥発快速急行尾羽原行き",
+
+"千鳥発普通本郷行き(井問)",
+"千鳥発普通本郷行き(千鳥支)",
+
+"千鳥発普通井口行き(井問)",
+"千鳥発普通井口行き(千鳥支)"
+
+];
+
+
+/* =========================================
+   DOM
+========================================= */
+
+const result =
+    document.getElementById("result");
+
+const rarity =
+    document.getElementById("rarity");
+
+const button =
+    document.getElementById("spinButton");
+
+const box =
+    document.getElementById("rouletteBox");
+
+const premium =
+    document.getElementById("premium");
+
+const premiumText =
+    document.getElementById("premiumText");
+
+
+/* =========================================
+   種別判定
+========================================= */
+
+function getType(train) {
+
+    if (train.includes("スーパーつばき"))
+        return "特急";
+
+    if (train.includes("air特急"))
+        return "特急";
+
+    if (train.includes("特急"))
+        return "特急";
+
+    if (train.includes("快速急行"))
+        return "快速急行";
+
+    if (train.includes("エアポート急行"))
+        return "急行";
+
+    if (train.includes("急行"))
+        return "急行";
+
+    if (train.includes("快速"))
+        return "快速";
+
+    if (train.includes("準急"))
+        return "準急";
+
+    return "普通";
 }
 
 
-/* =========================
-   HEADER
-========================= */
+/* =========================================
+   レア度
+========================================= */
 
-async function updateHeader(){
+function getRarity(type) {
 
-    const nameElement =
-        document.getElementById("headerUser");
+    switch(type) {
 
-    const button =
-        document.getElementById("headerButton");
+        case "特急":
+            return {
+                name: "🌈 LR — 超激レア",
+                className: "lr"
+            };
 
-    if(!currentUser){
+        case "快速急行":
+            return {
+                name: "🔥 UR — 激レア",
+                className: "ur"
+            };
 
-        nameElement.textContent =
-            "未ログイン";
+        case "急行":
+            return {
+                name: "💜 SSR — レア",
+                className: "ssr"
+            };
 
-        button.textContent =
-            "ログイン";
+        case "快速":
+            return {
+                name: "🔵 SR — ややレア",
+                className: "rare"
+            };
 
-        button.onclick =
-            openLogin;
+        case "準急":
+            return {
+                name: "🟢 R — レア",
+                className: "rare"
+            };
 
-        return;
+        default:
+            return {
+                name: "⚪ N — ノーマル",
+                className: "normal"
+            };
     }
-
-    let username =
-        currentUser.user_metadata?.username;
-
-    if(!username){
-
-        const {
-            data
-        } =
-        await supabaseClient
-        .from("profiles")
-        .select("username")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-        username =
-            data?.username ||
-            currentUser.email?.split("@")[0] ||
-            "ユーザー";
-    }
-
-    nameElement.textContent =
-        username;
-
-    button.textContent =
-        "ログアウト";
-
-    button.onclick =
-        logout;
 }
 
 
-/* =========================
-   登録
-========================= */
+/* =========================================
+   結果表示
+========================================= */
 
-async function register(){
+function showResult(train) {
 
-    const username =
-        document
-        .getElementById("registerUsername")
-        .value
-        .trim();
+    const type =
+        getType(train);
 
-    const email =
-        document
-        .getElementById("registerEmail")
-        .value
-        .trim();
+    const rare =
+        getRarity(type);
 
-    const password =
-        document
-        .getElementById("registerPassword")
-        .value;
-
-    if(!username){
-        alert("ユーザー名を入力して！");
-        return;
-    }
-
-    if(username.length < 2){
-        alert("ユーザー名は2文字以上にしてね！");
-        return;
-    }
-
-    if(!email){
-        alert("メールアドレスを入力して！");
-        return;
-    }
-
-    if(password.length < 6){
-        alert("パスワードは6文字以上にしてね！");
-        return;
-    }
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient.auth.signUp({
-
-        email:email,
-
-        password:password,
-
-        options:{
-            data:{
-                username:username
-            }
-        }
-
-    });
-
-
-    if(error){
-
-        alert(
-            "登録できませんでした。\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    if(data.user){
-
-        const {
-            error:profileError
-        } =
-        await supabaseClient
-        .from("profiles")
-        .upsert({
-
-            id:data.user.id,
-
-            username:username
-
-        });
-
-
-        if(profileError){
-
-            console.error(profileError);
-
-        }
-    }
-
-
-    closeModal("registerModal");
-
-
-    alert(
-        "登録しました！\n\n" +
-        "メール確認が必要な設定の場合は、" +
-        "届いたメールを確認してね。"
-    );
-
-
-    if(data.session){
-
-        currentUser =
-            data.user;
-
-        updateHeader();
-        updateProfile();
-
-    }else{
-
-        openLogin();
-    }
-
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-async function login(){
-
-    const email =
-        document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-        document
-        .getElementById("loginPassword")
-        .value;
-
-
-    if(!email || !password){
-
-        alert(
-            "メールアドレスとパスワードを入力して！"
-        );
-
-        return;
-    }
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient.auth
-    .signInWithPassword({
-
-        email:email,
-
-        password:password
-
-    });
-
-
-    if(error){
-
-        alert(
-            "ログインできませんでした。\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    currentUser =
-        data.user;
-
-    closeModal("loginModal");
-
-    updateHeader();
-    updateProfile();
-
-    alert("ログインしました！");
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout(){
-
-    await supabaseClient.auth.signOut();
-
-    currentUser = null;
-
-    updateHeader();
-    updateProfile();
-
-    alert("ログアウトしました！");
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-async function updateProfile(){
-
-    const area =
-        document.getElementById("profileArea");
-
-    if(!currentUser){
-
-        area.innerHTML = `
-            <div class="card glass empty">
-                ログインするとプロフィールを表示できます。
-            </div>
-        `;
-
-        return;
-    }
-
-
-    let username =
-        currentUser.user_metadata?.username;
-
-
-    if(!username){
-
-        const {
-            data
-        } =
-        await supabaseClient
-        .from("profiles")
-        .select("username")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-        username =
-            data?.username ||
-            currentUser.email?.split("@")[0] ||
-            "ユーザー";
-    }
-
-
-    area.innerHTML = `
-
-        <div class="card glass profile">
-
-            <div class="avatar">
-                ${escapeHTML(
-                    username
-                    .charAt(0)
-                    .toUpperCase()
-                )}
-            </div>
-
-            <div class="profile-name">
-                ${escapeHTML(username)}
-            </div>
-
-            <div class="profile-info">
-                ${escapeHTML(
-                    currentUser.email || ""
-                )}
-            </div>
-
-            <button
-                class="secondary"
-                style="margin-top:20px"
-                onclick="logout()">
-                ログアウト
-            </button>
-
+    result.innerHTML = `
+        <div class="train">
+            🚃 ${type}
         </div>
 
+        <div class="route">
+            ${train}
+        </div>
     `;
+
+    rarity.textContent =
+        rare.name;
+
+    rarity.className =
+        "rarity " + rare.className;
 }
 
 
-/* =========================
-   POSTS 読み込み
-========================= */
-
-async function loadPosts(){
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-    .from("posts")
-    .select("*")
-    .order("created_at",{
-        ascending:false
-    });
-
-
-    if(error){
-
-        console.error(error);
-
-        document.getElementById(
-            "homePosts"
-        ).innerHTML = `
-            <div class="empty">
-                投稿を読み込めませんでした。
-            </div>
-        `;
-
-        document.getElementById(
-            "allPosts"
-        ).innerHTML = `
-            <div class="empty">
-                投稿を読み込めませんでした。
-            </div>
-        `;
-
-        return;
-    }
-
-
-    renderPosts(data || []);
-}
-
-
-/* =========================
-   POST表示
-========================= */
-
-function renderPosts(posts){
-
-    if(!posts.length){
-
-        document.getElementById(
-            "homePosts"
-        ).innerHTML = `
-            <div class="empty">
-                まだ投稿がありません。
-            </div>
-        `;
-
-        document.getElementById(
-            "allPosts"
-        ).innerHTML = `
-            <div class="card glass empty">
-                まだ投稿がありません。
-            </div>
-        `;
-
-        return;
-    }
-
-
-    const html =
-        posts.map(post => {
-
-            const date =
-                formatDate(post.created_at);
-
-            const username =
-                post.username ||
-                "ユーザー";
-
-            return `
-
-                <div class="post glass">
-
-                    <div class="post-head">
-
-                        <div class="post-user">
-                            👤
-                            ${escapeHTML(username)}
-                        </div>
-
-                        <div class="post-date">
-                            ${date}
-                        </div>
-
-                    </div>
-
-                    <div class="post-content">
-                        ${escapeHTML(
-                            post.content || ""
-                        )}
-                    </div>
-
-                    <div class="post-actions">
-
-                        <button
-                            class="action-btn"
-                            onclick="likePost('${post.id}')">
-
-                            ❤️
-                            ${post.likes || 0}
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-
-    document.getElementById(
-        "homePosts"
-    ).innerHTML =
-        posts
-        .slice(0,5)
-        .map(post => {
-
-            const date =
-                formatDate(post.created_at);
-
-            return `
-
-                <div class="post glass">
-
-                    <div class="post-head">
-
-                        <div class="post-user">
-                            👤
-                            ${escapeHTML(
-                                post.username ||
-                                "ユーザー"
-                            )}
-                        </div>
-
-                        <div class="post-date">
-                            ${date}
-                        </div>
-
-                    </div>
-
-                    <div class="post-content">
-                        ${escapeHTML(
-                            post.content || ""
-                        )}
-                    </div>
-
-                    <div class="post-actions">
-
-                        <button
-                            class="action-btn"
-                            onclick="likePost('${post.id}')">
-
-                            ❤️
-                            ${post.likes || 0}
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
-
-    document.getElementById(
-        "allPosts"
-    ).innerHTML =
-        html;
-}
-
-
-/* =========================
-   投稿作成
-========================= */
-
-async function createPost(){
-
-    if(!currentUser){
-
-        closeModal("postModal");
-
-        openLogin();
-
-        return;
-    }
-
-
-    const textarea =
-        document.getElementById(
-            "postContent"
-        );
-
-    const content =
-        textarea.value.trim();
-
-
-    if(!content){
-
-        alert("投稿内容を入力して！");
-        return;
-    }
-
-
-    let username =
-        currentUser.user_metadata?.username;
-
-
-    if(!username){
-
-        const {
-            data
-        } =
-        await supabaseClient
-        .from("profiles")
-        .select("username")
-        .eq("id",currentUser.id)
-        .maybeSingle();
-
-        username =
-            data?.username ||
-            currentUser.email?.split("@")[0] ||
-            "ユーザー";
-    }
-
-
-    const {
-        error
-    } =
-    await supabaseClient
-    .from("posts")
-    .insert({
-
-        user_id:
-            currentUser.id,
-
-        username:
-            username,
-
-        content:
-            content,
-
-        likes:
-            0
-
-    });
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "投稿できませんでした。\n" +
-            error.message
-        );
-
-        return;
-    }
-
-
-    textarea.value = "";
-
-    closeModal("postModal");
-
-    await loadPosts();
-
-    alert("投稿しました！");
-}
-
-
-/* =========================
-   LIKE
-========================= */
-
-async function likePost(id){
-
-    if(!currentUser){
-
-        openLogin();
-
-        return;
-    }
-
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-    .from("posts")
-    .select("likes")
-    .eq("id",id)
-    .single();
-
-
-    if(error){
-
-        console.error(error);
-        return;
-    }
-
-
-    const likes =
-        Number(data.likes || 0) + 1;
-
-
-    const {
-        error:updateError
-    } =
-    await supabaseClient
-    .from("posts")
-    .update({
-        likes:likes
-    })
-    .eq("id",id);
-
-
-    if(updateError){
-
-        console.error(updateError);
-
-        alert(
-            "いいねできませんでした。\n" +
-            updateError.message
-        );
-
-        return;
-    }
-
-
-    await loadPosts();
-}
-
-
-/* =========================
-   PAGE
-========================= */
-
-function showPage(page){
-
-    document
-    .querySelectorAll(".page")
-    .forEach(p =>
-        p.classList.remove("active")
+/* =========================================
+   演出
+========================================= */
+
+function playEffect(type) {
+
+    box.classList.remove(
+        "flash",
+        "shake"
     );
 
-
-    const target =
-        document.getElementById(
-            page + "Page"
-        );
+    premium.classList.remove("show");
 
 
-    if(target){
+    if(type === "急行") {
 
-        target.classList.add("active");
+        box.classList.add("flash");
+
+        setTimeout(() => {
+            box.classList.remove("flash");
+        }, 1000);
 
     }
 
 
-    document
-    .querySelectorAll(".nav-btn")
-    .forEach(btn =>
-        btn.classList.remove("active")
-    );
+    if(type === "快速急行") {
 
+        box.classList.add("shake");
 
-    const buttons =
-        document.querySelectorAll(
-            ".nav-btn"
-        );
+        setTimeout(() => {
 
+            box.classList.remove("shake");
 
-    const index = {
-        home:0,
-        posts:1,
-        updates:2,
-        profile:3
-    }[page];
+        }, 1400);
 
-
-    if(buttons[index]){
-        buttons[index]
-        .classList.add("active");
     }
 
 
-    if(page === "posts"){
-        loadPosts();
+    if(type === "特急") {
+
+        box.classList.add("shake");
+
+        setTimeout(() => {
+
+            box.classList.remove("shake");
+
+            premiumText.textContent =
+                "🌈 PREMIUM 🌈";
+
+            premium.classList.add("show");
+
+
+            setTimeout(() => {
+
+                premium.classList.remove("show");
+
+            }, 1800);
+
+        }, 900);
+
     }
 
-    if(page === "profile"){
-        updateProfile();
-    }
 }
 
 
-/* =========================
-   MODAL
-========================= */
+/* =========================================
+   ルーレット
+========================================= */
 
-function openLogin(){
+let spinning = false;
 
-    closeModal("registerModal");
+button.addEventListener(
+    "click",
+    () => {
 
-    document
-    .getElementById("loginModal")
-    .classList.add("show");
-}
+        if(spinning)
+            return;
 
+        spinning = true;
 
-function openRegister(){
+        button.disabled = true;
 
-    closeModal("loginModal");
+        rarity.textContent = "";
 
-    document
-    .getElementById("registerModal")
-    .classList.add("show");
-}
+        let count = 0;
 
+        const total =
+            35 + Math.floor(
+                Math.random() * 20
+            );
 
-function openPostModal(){
-
-    if(!currentUser){
-
-        openLogin();
-
-        return;
-    }
-
-    document
-    .getElementById("postModal")
-    .classList.add("show");
-}
+        let speed = 55;
 
 
-function closeModal(id){
+        function roll() {
 
-    document
-    .getElementById(id)
-    .classList.remove("show");
-}
+            const temp =
+                trains[
+                    Math.floor(
+                        Math.random()
+                        * trains.length
+                    )
+                ];
 
+            result.innerHTML = `
+                <div class="train">
+                    🚃 抽選中
+                </div>
 
-function switchToRegister(){
-
-    closeModal("loginModal");
-
-    openRegister();
-}
-
-
-function switchToLogin(){
-
-    closeModal("registerModal");
-
-    openLogin();
-}
+                <div class="route">
+                    ${temp}
+                </div>
+            `;
 
 
-/* =========================
-   DATE
-========================= */
-
-function formatDate(date){
-
-    if(!date){
-        return "";
-    }
+            count++;
 
 
-    const d =
-        new Date(date);
+            if(count >= total) {
+
+                finish();
+
+                return;
+
+            }
 
 
-    return d.toLocaleString(
-        "ja-JP",
-        {
-            year:"numeric",
-            month:"numeric",
-            day:"numeric",
-            hour:"2-digit",
-            minute:"2-digit"
+            if(
+                count >
+                total * .65
+            ) {
+
+                speed += 15;
+
+            }
+
+
+            setTimeout(
+                roll,
+                speed
+            );
+
         }
-    );
-}
 
 
-/* =========================
-   XSS対策
-========================= */
+        function finish() {
 
-function escapeHTML(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
+            const selected =
+                trains[
+                    Math.floor(
+                        Math.random()
+                        * trains.length
+                    )
+                ];
 
 
-/* =========================
-   AUTH状態監視
-========================= */
+            const type =
+                getType(selected);
 
-supabaseClient.auth
-.onAuthStateChange(
-    async (event,session)=>{
 
-        currentUser =
-            session?.user || null;
+            showResult(selected);
 
-        updateHeader();
-        updateProfile();
-        loadPosts();
+
+            setTimeout(
+                () => {
+
+                    playEffect(type);
+
+                    spinning = false;
+
+                    button.disabled =
+                        false;
+
+                },
+                150
+            );
+
+        }
+
+
+        roll();
 
     }
 );
-
-
-/* =========================
-   START
-========================= */
-
-init();
 
 </script>
 
