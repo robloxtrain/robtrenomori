@@ -141,8 +141,7 @@ h1{
     0 0 30px #ff00ff,
     0 0 60px #00ffff;
 
-  animation:
-    kakuhenMode .7s linear infinite;
+  animation:kakuhenMode .7s linear infinite;
 }
 
 @keyframes kakuhenMode{
@@ -191,7 +190,8 @@ h1{
   position:absolute;
   left:0;
   right:0;
-  height:80px;
+  height:85px;
+
   z-index:5;
   pointer-events:none;
 }
@@ -201,7 +201,7 @@ h1{
   background:
     linear-gradient(
       to bottom,
-      rgba(0,0,0,.95),
+      rgba(0,0,0,.96),
       transparent
     );
 }
@@ -211,10 +211,18 @@ h1{
   background:
     linear-gradient(
       to top,
-      rgba(0,0,0,.95),
+      rgba(0,0,0,.96),
       transparent
     );
 }
+
+
+/*
+  中央の表示位置
+
+  線は使わず、
+  中央の文字がここに来るようにする
+*/
 
 .reel{
   width:100%;
@@ -226,8 +234,8 @@ h1{
 .reelTrack{
   position:absolute;
   width:100%;
-  top:0;
   left:0;
+  top:0;
 }
 
 .reelItem{
@@ -276,60 +284,7 @@ h1{
 
 
 /* =========================
-   両数選択
-========================= */
-
-#carsArea{
-  display:none;
-  margin-top:8px;
-}
-
-#carsTitle{
-  font-size:20px;
-  font-weight:1000;
-  margin-bottom:8px;
-}
-
-.carButtons{
-  display:flex;
-  justify-content:center;
-  gap:12px;
-}
-
-.carButton{
-  width:180px;
-  height:60px;
-
-  margin:0;
-
-  border:0;
-  border-radius:18px;
-
-  font-size:23px;
-  font-weight:1000;
-
-  color:white;
-
-  background:
-    linear-gradient(
-      135deg,
-      #202050,
-      #6935ff,
-      #00aaff
-    );
-
-  box-shadow:
-    0 0 12px #6935ff,
-    0 0 30px #00aaff;
-}
-
-.carButton:active{
-  transform:scale(.9);
-}
-
-
-/* =========================
-   メインボタン
+   ボタン
 ========================= */
 
 #spinButton{
@@ -512,7 +467,7 @@ h1{
 
 
 /* =========================
-   レア度カラー
+   レア度
 ========================= */
 
 .n{
@@ -554,11 +509,6 @@ h1{
     height:85px;
   }
 
-  .carButton{
-    width:145px;
-    font-size:20px;
-  }
-
 }
 </style>
 </head>
@@ -586,10 +536,12 @@ h1{
   <div class="slot" id="slot">
 
     <div class="reel">
+
       <div
         class="reelTrack"
         id="reelTrack">
       </div>
+
     </div>
 
   </div>
@@ -600,33 +552,6 @@ h1{
   </div>
 
   <div id="rarity"></div>
-
-
-  <!-- 両数選択 -->
-
-  <div id="carsArea">
-
-    <div id="carsTitle">
-      🚃 両数を選択
-    </div>
-
-    <div class="carButtons">
-
-      <button
-        class="carButton"
-        onclick="selectCars(2)">
-        🚃 2両
-      </button>
-
-      <button
-        class="carButton"
-        onclick="selectCars('3+')">
-        🚃🚃 3両以上
-      </button>
-
-    </div>
-
-  </div>
 
 
   <button
@@ -660,10 +585,10 @@ h1{
 <script>
 
 /* =====================================================
-   列車データ
+   尾羽急列車データ
 ===================================================== */
 
-const trains = [
+const trains=[
 
 "尾羽原発普通安越行き",
 "尾羽原発普通雲谷行き",
@@ -744,6 +669,7 @@ const trains = [
 "千鳥発普通本郷行き(千鳥支)",
 "千鳥発普通井口行き(井問)",
 "千鳥発普通井口行き(千鳥支)"
+
 ];
 
 
@@ -753,20 +679,13 @@ const trains = [
 
 let spinning=false;
 let kakuhen=false;
-let waitingCars=false;
-let currentTrain=null;
 
 
 /* =====================================================
-   種別判定
+   種別
 ===================================================== */
 
 function getType(train){
-
-  /*
-    「快速急行」を先に判定する
-    （急行に吸われないようにする）
-  */
 
   if(
     train.includes("特急") ||
@@ -835,10 +754,11 @@ function getRarity(type){
 
 
 /* =====================================================
-   種別ランク
+   ランク
 ===================================================== */
 
 const rank={
+
   "普通":1,
   "準急":2,
   "快速":3,
@@ -846,6 +766,7 @@ const rank={
   "エアポート急行":5,
   "快速急行":6,
   "特急":7
+
 };
 
 
@@ -894,25 +815,29 @@ function chooseTrain(){
         case "特急":
           weight=15;
           break;
-      }
 
+      }
     }
 
     weights.push(weight);
   }
 
-  const total=weights.reduce(
-    (a,b)=>a+b,
-    0
-  );
 
-  let random=Math.random()*total;
+  const total=
+    weights.reduce(
+      (a,b)=>a+b,
+      0
+    );
+
+  let r=
+    Math.random()*total;
+
 
   for(let i=0;i<trains.length;i++){
 
-    random-=weights[i];
+    r-=weights[i];
 
-    if(random<=0){
+    if(r<=0){
       return trains[i];
     }
 
@@ -952,6 +877,7 @@ function upgradeChance(type){
 
       case "特急":
         return .90;
+
     }
 
   }else{
@@ -978,6 +904,7 @@ function upgradeChance(type){
 
       case "特急":
         return .80;
+
     }
 
   }
@@ -992,39 +919,45 @@ function upgradeChance(type){
 
 function getUpgradeType(type){
 
-  const currentRank=rank[type];
+  const current=rank[type];
 
-  const possible=Object.keys(rank)
-    .filter(
-      t=>rank[t]>currentRank
-    );
+  const possible=
+    Object.keys(rank)
+      .filter(
+        x=>rank[x]>current
+      );
+
 
   if(possible.length===0){
     return type;
   }
 
-  /*
-    一気に特急よりも、
-    近いランクを出やすくする
-  */
 
   let weights=[];
 
-  for(const t of possible){
+  for(const target of possible){
 
     const difference=
-      rank[t]-currentRank;
+      rank[target]-current;
 
     weights.push(
-      Math.max(1,8-difference*2)
+      Math.max(
+        1,
+        8-difference*2
+      )
     );
 
   }
 
+
   const total=
-    weights.reduce((a,b)=>a+b,0);
+    weights.reduce(
+      (a,b)=>a+b,
+      0
+    );
 
   let r=Math.random()*total;
+
 
   for(let i=0;i<possible.length;i++){
 
@@ -1041,35 +974,41 @@ function getUpgradeType(type){
 
 
 /* =====================================================
-   指定種別の列車を選択
+   指定種別の列車
 ===================================================== */
 
 function randomTrainOfType(type){
 
-  const list=trains.filter(
-    train=>getType(train)===type
-  );
+  const list=
+    trains.filter(
+      train=>getType(train)===type
+    );
 
   if(list.length===0){
     return null;
   }
 
   return list[
-    Math.floor(Math.random()*list.length)
+    Math.floor(
+      Math.random()*list.length
+    )
   ];
 }
 
 
 /* =====================================================
-   リール生成
+   リール
 ===================================================== */
 
 function createReelItems(finalTrain){
 
   const track=
-    document.getElementById("reelTrack");
+    document.getElementById(
+      "reelTrack"
+    );
 
   track.innerHTML="";
+
 
   const items=[];
 
@@ -1085,23 +1024,39 @@ function createReelItems(finalTrain){
 
   }
 
+
+  /*
+    最後に本命
+  */
+
   items.push(finalTrain);
+
 
   items.forEach(train=>{
 
     const div=
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     div.className="reelItem";
 
-    const type=getType(train);
-    const rarity=getRarity(type);
 
-    div.classList.add(rarity[1]);
+    const type=
+      getType(train);
+
+    const rarity=
+      getRarity(type);
+
+
+    div.classList.add(
+      rarity[1]
+    );
 
     div.textContent=type;
 
     track.appendChild(div);
+
   });
 }
 
@@ -1113,7 +1068,10 @@ function createReelItems(finalTrain){
 function wait(ms){
 
   return new Promise(
-    resolve=>setTimeout(resolve,ms)
+    resolve=>setTimeout(
+      resolve,
+      ms
+    )
   );
 
 }
@@ -1125,20 +1083,23 @@ function wait(ms){
 
 function flash(times=1){
 
-  const element=
-    document.getElementById("flash");
+  const f=
+    document.getElementById(
+      "flash"
+    );
+
 
   for(let i=0;i<times;i++){
 
     setTimeout(()=>{
 
-      element.classList.remove(
+      f.classList.remove(
         "flashAnimation"
       );
 
-      void element.offsetWidth;
+      void f.offsetWidth;
 
-      element.classList.add(
+      f.classList.add(
         "flashAnimation"
       );
 
@@ -1157,7 +1118,9 @@ function particles(count=80){
   for(let i=0;i<count;i++){
 
     const p=
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     p.className="particle";
 
@@ -1167,7 +1130,9 @@ function particles(count=80){
     p.style.top=
       Math.random()*100+"vh";
 
+
     document.body.appendChild(p);
+
 
     const x=
       (Math.random()-.5)*800;
@@ -1175,30 +1140,39 @@ function particles(count=80){
     const y=
       (Math.random()-.5)*800;
 
+
     p.animate(
+
       [
         {
-          transform:"translate(0,0) scale(1)",
+          transform:
+            "translate(0,0) scale(1)",
           opacity:1
         },
+
         {
           transform:
             `translate(${x}px,${y}px) scale(0)`,
           opacity:0
         }
       ],
+
       {
         duration:
           800+Math.random()*1200,
+
         easing:
           "cubic-bezier(.1,.8,.2,1)"
       }
+
     );
+
 
     setTimeout(
       ()=>p.remove(),
       2200
     );
+
   }
 }
 
@@ -1214,13 +1188,20 @@ function showOverlay(
 ){
 
   const overlay=
-    document.getElementById("overlay");
+    document.getElementById(
+      "overlay"
+    );
 
   const textElement=
-    document.getElementById("overlayText");
+    document.getElementById(
+      "overlayText"
+    );
 
   const subElement=
-    document.getElementById("overlaySub");
+    document.getElementById(
+      "overlaySub"
+    );
+
 
   textElement.className=
     "overlayText "+className;
@@ -1229,35 +1210,44 @@ function showOverlay(
 
   subElement.textContent=sub;
 
-  overlay.classList.add("show");
+  overlay.classList.add(
+    "show"
+  );
+
 }
 
 
 function hideOverlay(){
 
   document
-    .getElementById("overlay")
-    .classList.remove("show");
+    .getElementById(
+      "overlay"
+    )
+    .classList.remove(
+      "show"
+    );
 
 }
 
 
 /* =====================================================
-   虹背景
+   虹
 ===================================================== */
 
 function rainbowMode(enabled){
 
   document
-    .getElementById("rainbowBg")
+    .getElementById(
+      "rainbowBg"
+    )
     .style.opacity=
-      enabled ? ".5":"0";
+      enabled?".5":"0";
 
 }
 
 
 /* =====================================================
-   昇格演出
+   昇格
 ===================================================== */
 
 async function upgradeEffect(
@@ -1273,11 +1263,18 @@ async function upgradeEffect(
   flash(2);
   particles(50);
 
-  document.body.classList.add("shake");
+  document.body.classList.add(
+    "shake"
+  );
+
 
   await wait(1000);
 
-  document.body.classList.remove("shake");
+
+  document.body.classList.remove(
+    "shake"
+  );
+
 
   showOverlay(
     "昇格!!",
@@ -1287,10 +1284,12 @@ async function upgradeEffect(
 
   rainbowMode(true);
 
-  flash(6);
-  particles(130);
+  flash(7);
+  particles(150);
+
 
   await wait(1500);
+
 
   hideOverlay();
 
@@ -1315,11 +1314,13 @@ async function rareEffect(type){
     flash(5);
     particles(100);
 
-    document.body.classList.add("shake");
+    document.body.classList.add(
+      "shake"
+    );
 
     await wait(1600);
-
   }
+
 
   else if(type==="エアポート急行"){
 
@@ -1330,13 +1331,15 @@ async function rareEffect(type){
     );
 
     flash(8);
-    particles(150);
+    particles(160);
 
-    document.body.classList.add("shake");
+    document.body.classList.add(
+      "shake"
+    );
 
     await wait(1900);
-
   }
+
 
   else if(type==="快速急行"){
 
@@ -1347,13 +1350,15 @@ async function rareEffect(type){
     );
 
     flash(10);
-    particles(200);
+    particles(210);
 
-    document.body.classList.add("shake");
+    document.body.classList.add(
+      "shake"
+    );
 
     await wait(2200);
-
   }
+
 
   else if(type==="特急"){
 
@@ -1368,12 +1373,17 @@ async function rareEffect(type){
     flash(15);
     particles(300);
 
-    document.body.classList.add("shake");
+    document.body.classList.add(
+      "shake"
+    );
 
     await wait(2600);
   }
 
-  document.body.classList.remove("shake");
+
+  document.body.classList.remove(
+    "shake"
+  );
 
   rainbowMode(false);
 
@@ -1382,7 +1392,7 @@ async function rareEffect(type){
 
 
 /* =====================================================
-   確変突入
+   確変
 ===================================================== */
 
 async function enterKakuhen(){
@@ -1395,193 +1405,223 @@ async function enterKakuhen(){
 
   rainbowMode(true);
 
-  document.body.classList.add("shake");
+  document.body.classList.add(
+    "shake"
+  );
 
   flash(12);
   particles(280);
 
+
   await wait(2600);
 
-  document.body.classList.remove("shake");
+
+  document.body.classList.remove(
+    "shake"
+  );
+
 
   kakuhen=true;
 
+
   const mode=
-    document.getElementById("mode");
+    document.getElementById(
+      "mode"
+    );
 
   mode.textContent=
     "🔥 確変中 🔥";
 
-  mode.classList.add("kakuhen");
+  mode.classList.add(
+    "kakuhen"
+  );
+
 
   hideOverlay();
 }
 
 
 /* =====================================================
-   両数選択が必要か
+   両数
 ===================================================== */
+
+/*
+  対象列車だけ
+  2両 / 3両以上を
+  完全ランダムで決定
+*/
 
 function needsCarChoice(train){
 
   /*
-    両数選択なし
-
-    ・井口発
-    ・千鳥発 本郷行き(井問)
-    ・千鳥発 本郷行き(千鳥支)
-    ・千鳥発 井口行き(井問)
-    ・千鳥発 井口行き(千鳥支)
-    ・尾羽原発 飛水竜田行き
-    ・尾羽原発 飛水柏原行き
+    井口発 → 対象外
   */
 
   if(train.startsWith("井口発")){
     return false;
   }
 
+
+  /*
+    千鳥発
+    本郷・井口
+    井問・千鳥支 → 対象外
+  */
+
   if(
-    train.includes("千鳥発普通本郷行き(井問)") ||
-    train.includes("千鳥発普通本郷行き(千鳥支)") ||
-    train.includes("千鳥発普通井口行き(井問)") ||
-    train.includes("千鳥発普通井口行き(千鳥支)")
+    train.includes(
+      "千鳥発普通本郷行き(井問)"
+    ) ||
+
+    train.includes(
+      "千鳥発普通本郷行き(千鳥支)"
+    ) ||
+
+    train.includes(
+      "千鳥発普通井口行き(井問)"
+    ) ||
+
+    train.includes(
+      "千鳥発普通井口行き(千鳥支)"
+    )
   ){
     return false;
   }
 
+
+  /*
+    飛水竜田・飛水柏原
+    → 対象外
+  */
+
   if(
     train==="尾羽原発普通飛水竜田行き" ||
+
     train==="尾羽原発普通飛水柏原行き"
   ){
     return false;
   }
 
+
   return true;
 }
 
 
+/*
+  両数をランダム決定
+*/
+
+function randomCars(){
+
+  return Math.random()<.5
+    ? "2両"
+    : "3両以上";
+
+}
+
+
 /* =====================================================
-   両数選択
+   両数演出
 ===================================================== */
 
-async function selectCars(cars){
+async function carEffect(
+  train
+){
 
-  if(!waitingCars){
-    return;
-  }
+  const cars=
+    randomCars();
 
-  waitingCars=false;
-
-  const area=
-    document.getElementById("carsArea");
-
-  area.style.display="none";
-
-  const result=
-    document.getElementById("result");
-
-  const rarity=
-    document.getElementById("rarity");
-
-  let carText;
-
-  if(cars===2){
-
-    carText="2両編成";
-
-  }else{
-
-    carText="3両以上編成";
-
-  }
-
-  /*
-    両数決定演出
-  */
 
   showOverlay(
-    carText,
     "編成決定!!",
-    cars===2 ? "" : "rainbow"
+    "……"+cars+"……",
+    cars==="3両以上"
+      ?"rainbow"
+      :""
   );
 
-  if(cars!=="2"){
+
+  if(cars==="3両以上"){
 
     rainbowMode(true);
-    flash(5);
-    particles(100);
+
+    flash(7);
+
+    particles(150);
 
   }else{
 
-    flash(2);
-    particles(30);
+    flash(3);
+
+    particles(50);
 
   }
 
-  await wait(1300);
+
+  await wait(1500);
+
 
   hideOverlay();
+
   rainbowMode(false);
 
-  result.textContent=
-    currentTrain+"【"+carText+"】";
 
-  rarity.textContent=
-    getRarity(getType(currentTrain))[0]
-    +"　"
-    +getType(currentTrain);
+  document.getElementById(
+    "result"
+  ).textContent=
+    train+"【"+cars+"】";
 
-  finishSpin();
 
+  return cars;
 }
 
 
 /* =====================================================
-   スピン終了
-===================================================== */
-
-function finishSpin(){
-
-  const button=
-    document.getElementById("spinButton");
-
-  button.disabled=false;
-
-  spinning=false;
-}
-
-
-/* =====================================================
-   メインルーレット
+   メイン
 ===================================================== */
 
 async function spin(){
 
-  if(spinning || waitingCars){
+  if(spinning){
     return;
   }
 
+
   spinning=true;
 
+
   const button=
-    document.getElementById("spinButton");
+    document.getElementById(
+      "spinButton"
+    );
 
   button.disabled=true;
 
+
   const result=
-    document.getElementById("result");
+    document.getElementById(
+      "result"
+    );
 
   const rarity=
-    document.getElementById("rarity");
+    document.getElementById(
+      "rarity"
+    );
 
   const slot=
-    document.getElementById("slot");
+    document.getElementById(
+      "slot"
+    );
 
-  result.textContent="回転中……";
+
+  result.textContent=
+    "回転中……";
+
   rarity.textContent="";
 
+
   /*
-    元の抽選
+    通常抽選
   */
 
   let finalTrain=
@@ -1596,66 +1636,107 @@ async function spin(){
 
   /*
     昇格抽選
-
-    普通・準急・快速からでも
-    急行以上に昇格する可能性あり
   */
 
   if(
     Math.random()<
-    upgradeChance(originalType)
+    upgradeChance(
+      originalType
+    )
   ){
 
     const upgrade=
-      getUpgradeType(originalType);
+      getUpgradeType(
+        originalType
+      );
 
-    if(upgrade!==originalType){
+
+    if(
+      upgrade!==originalType
+    ){
 
       finalType=upgrade;
 
+
       const upgradedTrain=
-        randomTrainOfType(finalType);
+        randomTrainOfType(
+          finalType
+        );
+
 
       if(upgradedTrain){
-        finalTrain=upgradedTrain;
+        finalTrain=
+          upgradedTrain;
       }
-
-      /*
-        リールが止まってから昇格演出
-        をするため、あとで使用
-      */
 
     }
 
   }
 
 
-  currentTrain=finalTrain;
-
-
   /*
-    リール作成
+    リール
   */
 
-  createReelItems(finalTrain);
+  createReelItems(
+    finalTrain
+  );
+
 
   const track=
-    document.getElementById("reelTrack");
+    document.getElementById(
+      "reelTrack"
+    );
+
 
   const itemHeight=95;
 
+
   /*
-    最終位置
+    ★ここが中央停止の重要部分★
+
+    スロット高さ300px
+
+    中央 = 150px
+
+    1項目 = 95px
+
+    項目の中央 = 47.5px
+
+    よって
+    150 - 47.5 = 102.5px
+
+    本命項目が中央に来るように
+    位置を計算する
+  */
+
+  const slotHeight=
+    document
+      .querySelector(".slot")
+      .clientHeight;
+
+  const targetCenter=
+    slotHeight/2;
+
+  const itemCenter=
+    itemHeight/2;
+
+
+  /*
+    本命は50番目
   */
 
   const targetIndex=50;
 
+
   const distance=
-    targetIndex*itemHeight;
+    targetIndex*itemHeight
+    -
+    (targetCenter-itemCenter);
 
 
   /*
-    リセット
+    初期位置
   */
 
   track.style.transition="none";
@@ -1663,62 +1744,67 @@ async function spin(){
   track.style.transform=
     "translateY(0)";
 
+
   await wait(100);
 
 
   /*
-    超なめらか回転
+    なめらか回転
 
-    最初
-      ゆっくり
-
-    ↓
-
+    ゆっくり
+       ↓
     加速
-
-    ↓
-
-    超高速
-
-    ↓
-
-    最後
-      ゆっくり停止
+       ↓
+    高速
+       ↓
+    なめらか減速
+       ↓
+    ★中央停止★
   */
 
   track.offsetHeight;
 
+
   track.style.transition=
     "transform 7.5s cubic-bezier(.08,.72,.10,1)";
+
 
   track.style.transform=
     `translateY(-${distance}px)`;
 
 
   /*
-    回転途中の演出
+    回転中
   */
 
-  setTimeout(()=>{
-    flash(1);
-  },2300);
+  setTimeout(
+    ()=>flash(1),
+    2300
+  );
 
-  setTimeout(()=>{
-    slot.classList.add("pulse");
-  },4500);
 
-  setTimeout(()=>{
-    slot.classList.remove("pulse");
-  },6800);
+  setTimeout(
+    ()=>slot.classList.add("pulse"),
+    4500
+  );
+
+
+  setTimeout(
+    ()=>slot.classList.remove("pulse"),
+    6800
+  );
 
 
   await wait(7600);
 
-  slot.classList.remove("pulse");
+
+  slot.classList.remove(
+    "pulse"
+  );
 
 
   /*
-    結果表示
+    最終結果
   */
 
   const type=
@@ -1727,20 +1813,23 @@ async function spin(){
   const rarityData=
     getRarity(type);
 
+
   result.textContent=
     finalTrain;
 
   rarity.textContent=
-    rarityData[0]+"　"+type;
+    rarityData[0]
+    +"　"
+    +type;
 
 
   /*
-    昇格演出
-
-    元の種別と最終種別が違う場合
+    昇格
   */
 
-  if(finalType!==originalType){
+  if(
+    finalType!==originalType
+  ){
 
     await upgradeEffect(
       originalType,
@@ -1751,7 +1840,7 @@ async function spin(){
 
 
   /*
-    急行以上の専用演出
+    急行以上
   */
 
   if(rank[type]>=4){
@@ -1771,6 +1860,7 @@ async function spin(){
   ){
 
     let chance=0;
+
 
     switch(type){
 
@@ -1793,7 +1883,9 @@ async function spin(){
     }
 
 
-    if(Math.random()<chance){
+    if(
+      Math.random()<chance
+    ){
 
       await enterKakuhen();
 
@@ -1803,7 +1895,7 @@ async function spin(){
 
 
   /*
-    確変中
+    確変中の継続判定
   */
 
   else if(kakuhen){
@@ -1813,25 +1905,36 @@ async function spin(){
       22%終了
     */
 
-    if(Math.random()<.22){
+    if(
+      Math.random()<.22
+    ){
 
       showOverlay(
         "確変終了",
         "通常時へ……"
       );
 
+
       await wait(1500);
+
 
       kakuhen=false;
 
-      const mode=
-        document.getElementById("mode");
 
-      mode.textContent="通常時";
+      const mode=
+        document.getElementById(
+          "mode"
+        );
+
+
+      mode.textContent=
+        "通常時";
+
 
       mode.classList.remove(
         "kakuhen"
       );
+
 
       hideOverlay();
 
@@ -1841,29 +1944,24 @@ async function spin(){
 
 
   /*
-    両数選択
+    両数
   */
 
-  if(needsCarChoice(finalTrain)){
+  if(
+    needsCarChoice(
+      finalTrain
+    )
+  ){
 
-    waitingCars=true;
-
-    document.getElementById(
-      "carsArea"
-    ).style.display="block";
-
-    /*
-      ここではボタンを
-      無効解除しない
-    */
-
-    return;
+    await carEffect(
+      finalTrain
+    );
 
   }
 
 
   /*
-    両数選択なし
+    両数対象外はそのまま
   */
 
   finishSpin();
@@ -1872,12 +1970,31 @@ async function spin(){
 
 
 /* =====================================================
-   初期状態
+   終了
+===================================================== */
+
+function finishSpin(){
+
+  const button=
+    document.getElementById(
+      "spinButton"
+    );
+
+  button.disabled=false;
+
+  spinning=false;
+
+}
+
+
+/* =====================================================
+   初期
 ===================================================== */
 
 document.getElementById(
   "result"
-).textContent="START";
+).textContent=
+  "START";
 
 </script>
 
